@@ -1,0 +1,103 @@
+# =======================================
+# Carpeta con claves jwt publicas/privadas
+# =======================================
+
+backend/**/secrets/
+secrets/
+
+
+# =======================================
+# COMPLEMENTO: Django + Docker + PostgreSQL
+# =======================================
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[codz]
+*$py.class
+
+# ... [todo tu contenido anterior aquí sin cambios] ...
+
+marimo/_static/
+marimo/_lsp/
+__marimo__/
+
+# Asegura que se ignoren todos los __pycache__ en subcarpetas
+*/__pycache__/
+*/*/__pycache__/
+*/*/*/__pycache__/
+
+# Archivos y carpetas temporales de Django
+static/
+staticfiles/
+media/
+tmp/
+logs/
+*.bak
+*.log
+
+# Archivos de base de datos locales
+*.sqlite3
+*.db
+db.sqlite3
+db.sqlite3-journal
+
+# Archivos de entorno y configuraciones locales
+.env
+.env.*
+*.env
+*.local
+*.secret
+.envrc
+
+# ==========================
+# Docker
+# ==========================
+# Archivos y carpetas generadas por contenedores
+*.pid
+*.seed
+*.tar
+*.bak
+*.swp
+
+# Archivos de configuración adicionales de docker-compose
+docker-compose.override.yml
+docker-compose.local.yml
+
+# Directorios de datos montados en volúmenes locales
+pgdata/
+postgres-data/
+postgres_data/
+data/
+data/db/
+db_data/
+volumes/
+.docker/
+.docker-compose/
+
+# ==========================
+# IDEs / Editores
+# ==========================
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# ==========================
+# Sistema operativo
+# ==========================
+.DS_Store
+Thumbs.db
+
+# ==========================
+# Cobertura / Pruebas
+# ==========================
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.pytest_cache/
+.cache/
+coverage.xml
+nosetests.xml
+*.cover
+*.py.cover

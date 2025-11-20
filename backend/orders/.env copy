@@ -1,0 +1,13 @@
+# Django secret key y debug
+SECRET_KEY="django-insecure-sf@5e)#&v!7xu%!sbcp%=z5*)=#=euk#not%5n_l9!5t2!3_1y"
+DEBUG=True
+
+# Base de datos (apunta al servicio DB de Docker Compose)
+POSTGRES_DB=orders_db
+POSTGRES_USER=admin
+POSTGRES_PASSWORD=admin123
+POSTGRES_HOST=orders-db
+POSTGRES_PORT=5432
+
+
+JWT_PUBLIC_KEY_PATH=/run/secrets/jwt_public.pem
