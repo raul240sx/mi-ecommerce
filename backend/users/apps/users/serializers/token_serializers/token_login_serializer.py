@@ -13,3 +13,10 @@ class TokenLoginSerializer(TokenObtainPairSerializer):
         token['is_verified'] = user.is_verified
 
         return token
+    
+    def validate(self, attrs):
+        data = super().validate(attrs)
+
+        data['is_verified'] = self.user.is_verified
+
+        return data
