@@ -23,6 +23,12 @@ class AddressViewset(ModelViewSet):
 
             instance.soft_delete(actor=user)
 
+
+    def destroy(self, request,*args, **kwargs):
+        instance = self.get_object()
+
+        self.perform_destroy(instance)
+
         return Response({'message':'Dirección eliminada correctamente'}, status=status.HTTP_200_OK)
 
         
