@@ -3,9 +3,9 @@ djangorestframework
 psycopg2-binary
 django-cors-headers
 djangorestframework-simplejwt
+djangorestframework-simplejwt[crypto]
 pillow
 python-dotenv
 django-simple-history
 drf-yasg
 requests
-cryptography 

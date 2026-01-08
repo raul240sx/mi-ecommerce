@@ -1,6 +1,8 @@
 from pathlib import Path
 import os
 from dotenv import load_dotenv
+from datetime import timedelta
+from django.core.exceptions import ImproperlyConfigured
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -11,19 +13,7 @@ load_dotenv(BASE_DIR.parent / '.env')
 SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
 
-ALLOWED_HOSTS = [
-    'products-service',
-    'users-service',
-    'orders-service',
-    'localhost',
-    '127.0.0.1',
-    '.app.github.dev'
-]
 
-CSRF_TRUSTED_ORIGINS = [
-    'https://*.app.github.dev',
-    'http://localhost:7100'
-]
 
 # Application definition
 
@@ -43,8 +33,10 @@ LOCAL_APPS = [
 
 THIRD_APPS = [
     'rest_framework',
+    'rest_framework_simplejwt',
     'simple_history',
     'drf_yasg',
+    'corsheaders',
 ]
 
 INSTALLED_APPS = BASE_APPS + LOCAL_APPS + THIRD_APPS
@@ -52,6 +44,10 @@ INSTALLED_APPS = BASE_APPS + LOCAL_APPS + THIRD_APPS
 USERS_VERIFY_URL = 'http://users-service:8000/usuario/verify_token/'
 
 REST_FRAMEWORK = {
+    'DEFAULT_AUTHTENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication'
+    ),
+
     "DEFAULT_PERMISSION_CLASSES": (
         "rest_framework.permissions.IsAuthenticated",
     ),
@@ -62,6 +58,7 @@ SWAGGER_SETTINGS = {
 }
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -119,13 +116,33 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 # --- JWT CONFIG ---
-JWT_PUBLIC_KEY_PATH = os.getenv("JWT_PUBLIC_KEY_PATH")
+JWT_PUBLIC_KEY_PATH = os.getenv('JWT_PUBLIC_KEY_PATH')
 
-def read_key(path: str) -> str:
-    if path and Path(path).exists():
-        return Path(path).read_text()
-    return None
+def read_key(path):
+    if not path:
+        raise ImproperlyConfigured(f'La ruta de la llave JWT no está definida correctamente')
+
+    if not Path(path).exists():
+        raise ImproperlyConfigured(f"No se encontró la llave pública en la ruta especificada")
+
+    return Path(path).read_text()
+
 
 JWT_PUBLIC_KEY = read_key(JWT_PUBLIC_KEY_PATH)
 
+SIMPLE_JWT = {
+    'ALGORITHM': 'RS256',   
+    'VERIFYING_KEY': JWT_PUBLIC_KEY,  
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),
+    'AUTH_HEADER_TYPES': ('Bearer',),
+    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
+    'USER_ID_FIELD': 'user_id',
+    'USER_ID_CLAIM': 'user_id',
+}
 
+
+# --- MEDIA CONFIG ---
+
+MEDIA_URL = '/media/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

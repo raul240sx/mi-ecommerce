@@ -1,3 +1,4 @@
+from django.core.exceptions import ImproperlyConfigured
 from pathlib import Path
 import os
 from datetime import timedelta
@@ -159,10 +160,15 @@ JWT_PRIVATE_KEY_PATH = os.getenv("JWT_PRIVATE_KEY_PATH")
 JWT_PUBLIC_KEY_PATH = os.getenv("JWT_PUBLIC_KEY_PATH")
 
 
-def read_key(path: str) -> str:
-    if path and Path(path).exists():
-        return Path(path).read_text()
-    return None
+def read_key(path):
+    if not path:
+        raise ImproperlyConfigured(f'La ruta de la llave JWT no está definida correctamente')
+
+    if not Path(path).exists():
+        raise ImproperlyConfigured(f"No se encontró la llave pública en la ruta especificada")
+
+    return Path(path).read_text()
+
 
 JWT_PRIVATE_KEY = read_key(JWT_PRIVATE_KEY_PATH)
 JWT_PUBLIC_KEY = read_key(JWT_PUBLIC_KEY_PATH)
@@ -188,3 +194,11 @@ CELERY_TASK_SERIALIZER = "json"
 CELERY_RESULT_SERIALIZER = "json"
 CELERY_TIMEZONE = "UTC"
 
+
+
+
+# --- MEDIA CONFIG ---
+
+MEDIA_URL = '/media/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

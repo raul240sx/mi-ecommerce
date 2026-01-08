@@ -10,6 +10,7 @@ class TokenLoginSerializer(TokenObtainPairSerializer):
         token['name'] = user.first_name
         token['last_name'] = user.last_name
         token['email'] = user.email
+        token['is_staff'] = user.is_staff
         token['is_verified'] = user.is_verified
 
         return token
