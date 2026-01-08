@@ -48,7 +48,8 @@ services:
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - ./backend/users:/usr/src/app
-      - ./secrets/users:/run/secrets:ro      
+      - ./secrets/users:/run/secrets:ro
+      - ./media/users:/usr/src/app/media    
     ports:
       - "7000:8000"
     env_file:
@@ -64,6 +65,7 @@ services:
     volumes:
       - ./backend/products:/usr/src/app
       - ./secrets/products:/run/secrets:ro
+      - ./media/products:/usr/src/app/media
     ports:
       - "7100:8000"
     env_file:
@@ -79,6 +81,7 @@ services:
     volumes:
       - ./backend/orders:/usr/src/app
       - ./secrets/orders:/run/secrets:ro
+      - ./media/orders:/usr/src/app/media
     ports:
       - "7200:8000"
     env_file:
@@ -106,6 +109,7 @@ services:
     command: celery -A users_project worker -l INFO
     volumes:
       - ./backend/users:/app
+      - .media/users:/usr/src/app/media
     env_file:
       - ./backend/users/.env
     depends_on:
@@ -119,6 +123,7 @@ services:
     command: celery -A orders_project worker -l INFO
     volumes:
       - ./backend/orders:/app
+      - ./media/orders:/usr/src/app/media
     env_file:
       - ./backend/orders/.env
     depends_on:
