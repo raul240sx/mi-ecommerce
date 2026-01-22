@@ -12,7 +12,7 @@ class MeasureUnit(BaseModel):
         verbose_name_plural = 'Unidades de medida' 
 
 
-    history = HistoricalRecords()
+    history = HistoricalRecords(user_db_constraint=False)
 
     def __str__(self):
         return self.name
@@ -26,11 +26,10 @@ class Category(BaseModel):
         verbose_name = 'Categoría'
         verbose_name_plural = 'Categorías'
 
-    history = HistoricalRecords()
+    history = HistoricalRecords(user_db_constraint=False)
 
     def __str__(self):
         return self.name
-    
 
 
 class Product(BaseModel):
@@ -46,7 +45,7 @@ class Product(BaseModel):
         verbose_name = 'Producto'
         verbose_name_plural = 'Productos'
 
-    history = HistoricalRecords()
+    history = HistoricalRecords(user_db_constraint=False)
 
     def __str__(self):
         return self.name
