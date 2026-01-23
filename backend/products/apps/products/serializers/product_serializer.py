@@ -23,11 +23,11 @@ class ProductSerializer(serializers.ModelSerializer):
         data['category'] = {
             'id': instance.category.id,
             'name': instance.category.name
-            } if instance.category else None
+            } if instance.category and instance.category.state else None
         
         data['measure_unit'] = {
             'id': instance.measure_unit.id,
             'name': instance.measure_unit.name
-            } if instance.measure_unit else None
+            } if instance.measure_unit and instance.measure_unit.state else None
 
         return data
