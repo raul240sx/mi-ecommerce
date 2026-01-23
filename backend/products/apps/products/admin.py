@@ -1,5 +1,8 @@
 from django.contrib import admin
-from apps.products.models import MeasureUnit, Category, Product
+
+from apps.products.models.product import Product
+from apps.products.models.category import Category
+from apps.products.models.measure_unit import MeasureUnit
 
 
 class MeasureUnitAdmin(admin.ModelAdmin):
