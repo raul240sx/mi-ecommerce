@@ -3,6 +3,8 @@ from rest_framework.response import Response
 from rest_framework import viewsets
 from rest_framework.permissions import AllowAny
 
+from drf_yasg.utils import swagger_auto_schema
+
 from apps.products.permissions.is_staff_permission import IsStaffPermission
 
 from apps.products.serializers.product_serializer import ProductSerializer
@@ -24,6 +26,15 @@ class ProductViewSet(viewsets.ModelViewSet):
 
         return [permission() for permission in permission_classes]
     
+
+    @swagger_auto_schema(security=[])
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+    
+
+    @swagger_auto_schema(security=[])
+    def retrieve(self, request, *args, **kwargs):
+        return super().retrieve(request, *args, **kwargs)
 
 
     def perform_create(self, serializer):

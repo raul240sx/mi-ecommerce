@@ -44,8 +44,8 @@ INSTALLED_APPS = BASE_APPS + LOCAL_APPS + THIRD_APPS
 USERS_VERIFY_URL = 'http://users-service:8000/usuario/verify_token/'
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHTENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication'
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
 
     "DEFAULT_PERMISSION_CLASSES": (

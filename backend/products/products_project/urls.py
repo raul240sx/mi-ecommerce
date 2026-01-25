@@ -17,9 +17,17 @@ schema_view = get_schema_view(
       terms_of_service="https://www.google.com/policies/terms/",
       contact=openapi.Contact(email="raul.ramirez1401@gmail.com"),
       license=openapi.License(name="BSD License"),
+      security_definitions={
+       'Bearer':{
+           'type':'apiKey',
+           'name':'Authorization',
+           'in':'header'
+       }
+   },
    ),
    public=True,
    permission_classes=(permissions.AllowAny,),
+   
 )
 
 
@@ -29,6 +37,8 @@ urlpatterns = [
    path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 
    path('admin/', admin.site.urls),
+
+   path('product-api/', include('apps.products.urls'))
 
 ]
 
