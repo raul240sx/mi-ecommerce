@@ -116,6 +116,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 # --- JWT CONFIG ---
+
+INTERNAL_SERVICE_KEY= os.getenv('INTERNAL_SERVICE_KEY')
 JWT_PUBLIC_KEY_PATH = os.getenv('JWT_PUBLIC_KEY_PATH')
 
 def read_key(path):

@@ -18,7 +18,6 @@ CSRF_TRUSTED_ORIGINS = [
     'https://localhost:7100'
 ]
 
-
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
@@ -39,3 +38,6 @@ DATABASES = {
 
 STATIC_URL = 'static/'
 
+
+
+USERS_VERIFY_URL = 'http://localhost:7000/users/token-verify/'
