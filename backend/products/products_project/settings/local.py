@@ -40,4 +40,3 @@ STATIC_URL = 'static/'
 
 
 
-USERS_VERIFY_URL = 'http://localhost:7000/users/token-verify/'
