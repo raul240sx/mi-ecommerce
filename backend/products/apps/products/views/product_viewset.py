@@ -23,14 +23,6 @@ class ProductViewSet(viewsets.ModelViewSet):
         return queryset
     
 
-    def get_authenticators(self):
-        action = getattr(self, 'action', None)
-        if action in ['list', 'retrieve', 'None']:
-            return []
-        
-        return [auth() for auth in self.authentication_classes]
-
-
     def get_permissions(self):
         action = getattr(self, 'action', None)
         if action in ['list', 'retrieve', 'None']:

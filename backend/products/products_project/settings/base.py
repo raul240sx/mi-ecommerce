@@ -45,7 +45,7 @@ USERS_VERIFY_URL = 'http://users-service:8000/usuario/verify_token/'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'apps.base.custom_authentication.CustomAuthentication',
     ),
 
     "DEFAULT_PERMISSION_CLASSES": (
