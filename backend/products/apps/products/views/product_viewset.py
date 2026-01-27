@@ -1,3 +1,5 @@
+from django.utils.decorators import method_decorator
+
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework import viewsets
@@ -9,16 +11,29 @@ from apps.products.permissions.is_staff_permission import IsStaffPermission
 
 from apps.products.serializers.product_serializer import ProductSerializer
 
+
+
+@method_decorator(name='list', decorator=swagger_auto_schema(security=[]))
+@method_decorator(name='retrieve', decorator=swagger_auto_schema(security=[]))
 class ProductViewSet(viewsets.ModelViewSet):
     serializer_class = ProductSerializer
 
     def get_queryset(self):
         queryset = self.get_serializer().Meta.model.objects.filter(state=True).select_related('category', 'measure_unit')
         return queryset
+    
+
+    def get_authenticators(self):
+        action = getattr(self, 'action', None)
+        if action in ['list', 'retrieve', 'None']:
+            return []
+        
+        return [auth() for auth in self.authentication_classes]
+
 
     def get_permissions(self):
-
-        if self.action in ['list', 'retrieve']:
+        action = getattr(self, 'action', None)
+        if action in ['list', 'retrieve', 'None']:
             permission_classes = [AllowAny]
 
         else:
@@ -26,16 +41,6 @@ class ProductViewSet(viewsets.ModelViewSet):
 
         return [permission() for permission in permission_classes]
     
-
-    @swagger_auto_schema(security=[])
-    def list(self, request, *args, **kwargs):
-        return super().list(request, *args, **kwargs)
-    
-
-    @swagger_auto_schema(security=[])
-    def retrieve(self, request, *args, **kwargs):
-        return super().retrieve(request, *args, **kwargs)
-
 
     def perform_create(self, serializer):
         serializer.save(user_id=getattr(self.request.user, 'id', None))

@@ -2,6 +2,8 @@ from django.db import models
 from django.utils import timezone
 
 
+ADMIN_USER_ID = -1
+
 class BaseModel(models.Model):
     state = models.BooleanField('Estado', default=True)
     created_date = models.DateTimeField('Fecha de creación', auto_now_add=True)
@@ -14,6 +16,9 @@ class BaseModel(models.Model):
 
     def save(self, *args, **kwargs):
         user_id = kwargs.pop('user_id', None)
+
+        if user_id is None:
+            user_id = ADMIN_USER_ID
 
         if user_id is not None:
             if self.state:

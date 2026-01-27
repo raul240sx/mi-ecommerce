@@ -69,7 +69,8 @@ class JWTVerificationMiddleware:
 
                 return self.get_response(request)
             
-            return JsonResponse({'error':'Token mal formateado'}, status=401)
+            request.user = AnonymousUser()
+            return self.get_response(request)
         
         except jwt.PyJWTError:
             if self.try_call_verify and token and len(token) > 1:

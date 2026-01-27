@@ -11,7 +11,8 @@ class Product(BaseModel):
     name = models.CharField('Nombre producto', max_length=50)
     description = models.TextField('Descripción')
     price = models.DecimalField('Precio', max_digits=10, decimal_places=2)
-    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True, related_name='products', verbose_name='Categoría del producto')
+    stock = models.PositiveBigIntegerField('Cantidad', default=0, blank=True, null=True)
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, blank=True, null=True, related_name='products', verbose_name='Categoría del producto')
     measure_unit = models.ForeignKey(MeasureUnit, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Unidad de medida del producto')
     image = models.ImageField('Imágen del producto',upload_to='products/' , blank=True, null=True)
 
