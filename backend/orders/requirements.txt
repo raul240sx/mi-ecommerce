@@ -7,4 +7,5 @@ celery
 redis
 python-dotenv
 drf-yasg
-cryptography 
+cryptography
+django-filter
