@@ -45,11 +45,18 @@ RUN pip install --upgrade pip && \
 COPY --chown=appuser:appuser . .
 
 # ---------------------------------------------------------------
+# Crear carpeta media
+# ---------------------------------------------------------------
+RUN mkdir -p /usr/src/app/media && \
+    chown -R appuser:appuser /usr/src/app /usr/src/app/media
+
+
+# ---------------------------------------------------------------
 # Cambiar al usuario seguro (no root)
 # ---------------------------------------------------------------
 USER appuser
 
 # ---------------------------------------------------------------
-# Comando por defecto (puede ser sobrescrito por docker-compose)
+# Comando por defecto
 # ---------------------------------------------------------------
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]

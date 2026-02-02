@@ -9,3 +9,5 @@ python-dotenv
 drf-yasg
 cryptography
 django-filter
+django-simple-history
+django-cors-headers

@@ -23,7 +23,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     rm -rf /var/lib/apt/lists/*
 
 # ---------------------------------------------------------------
-# Variables de entorno para un entorno predecible
+# Variables de entorno
 # ---------------------------------------------------------------
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
@@ -46,6 +46,14 @@ RUN pip install --upgrade pip && \
 # Copiar el código fuente de la aplicación
 # ---------------------------------------------------------------
 COPY --chown=appuser:appuser . .
+
+
+# ---------------------------------------------------------------
+# Crear carpeta media
+# ---------------------------------------------------------------
+RUN mkdir -p /usr/src/app/media && \
+    chown -R appuser:appuser /usr/src/app /usr/src/app/media
+
 
 # ---------------------------------------------------------------
 # Cambiar al usuario seguro (no root)

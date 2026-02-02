@@ -108,8 +108,9 @@ services:
     build: ./backend/users
     command: celery -A users_project worker -l INFO
     volumes:
-      - ./backend/users:/app
-      - .media/users:/usr/src/app/media
+      - ./backend/users:/usr/src/app
+      - ./secrets/users:/run/secrets:ro
+      - ./media/users:/usr/src/app/media
     env_file:
       - ./backend/users/.env
     depends_on:
@@ -122,7 +123,7 @@ services:
     build: ./backend/orders
     command: celery -A orders_project worker -l INFO
     volumes:
-      - ./backend/orders:/app
+      - ./backend/orders:/usr/src/app
       - ./media/orders:/usr/src/app/media
     env_file:
       - ./backend/orders/.env

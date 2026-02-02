@@ -156,45 +156,45 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 # --- JWT CONFIG ---
-INTERNAL_SERVICE_KEY = os.getenv("INTERNAL_SERVICE_KEY")
+INTERNAL_SERVICE_KEY = os.getenv('INTERNAL_SERVICE_KEY')
 
-JWT_PRIVATE_KEY_PATH = os.getenv("JWT_PRIVATE_KEY_PATH")
-JWT_PUBLIC_KEY_PATH = os.getenv("JWT_PUBLIC_KEY_PATH")
+JWT_PRIVATE_KEY_PATH = os.getenv('JWT_PRIVATE_KEY_PATH')
+JWT_PUBLIC_KEY_PATH = os.getenv('JWT_PUBLIC_KEY_PATH')
 
 
-def read_key(path):
+def read_key(path, name):
     if not path:
-        raise ImproperlyConfigured(f'La ruta de la llave JWT no está definida correctamente')
+        raise ImproperlyConfigured(f'La ruta de la llave {name} JWT no está definida correctamente')
 
     if not Path(path).exists():
-        raise ImproperlyConfigured(f"No se encontró la llave pública en la ruta especificada")
+        raise ImproperlyConfigured(f'No se encontró la llave {name} en la ruta especificada')
 
     return Path(path).read_text()
 
 
-JWT_PRIVATE_KEY = read_key(JWT_PRIVATE_KEY_PATH)
-JWT_PUBLIC_KEY = read_key(JWT_PUBLIC_KEY_PATH)
+JWT_PRIVATE_KEY = read_key(JWT_PRIVATE_KEY_PATH, 'privada')
+JWT_PUBLIC_KEY = read_key(JWT_PUBLIC_KEY_PATH, 'publica')
 
 SIMPLE_JWT = {
-    "ALGORITHM": "RS256",
+    "ALGORITHM": 'RS256',
     "SIGNING_KEY": JWT_PRIVATE_KEY,   
     "VERIFYING_KEY": JWT_PUBLIC_KEY,  
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=15),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
-    "AUTH_HEADER_TYPES": ("Bearer",),
+    "AUTH_HEADER_TYPES": ('Bearer',),
 }
 
 
 ## CELERY
 
-CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL", "redis://redis-service:6379/0")
-CELERY_RESULT_BACKEND = os.getenv("CELERY_RESULT_BACKEND", "redis://redis-service:6379/1")
+CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL', 'redis://redis-service:6379/0')
+CELERY_RESULT_BACKEND = os.getenv('CELERY_RESULT_BACKEND', 'redis://redis-service:6379/1')
 
-CELERY_TASK_DEFAULT_QUEUE = "users_queue"
-CELERY_ACCEPT_CONTENT = ["json"]
-CELERY_TASK_SERIALIZER = "json"
-CELERY_RESULT_SERIALIZER = "json"
-CELERY_TIMEZONE = "UTC"
+CELERY_TASK_DEFAULT_QUEUE = 'users_queue'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'UTC'
 
 
 
@@ -203,4 +203,4 @@ CELERY_TIMEZONE = "UTC"
 
 MEDIA_URL = '/media/'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.getenv('MEDIA_ROOT_PATH', os.path.join(BASE_DIR, 'media'))

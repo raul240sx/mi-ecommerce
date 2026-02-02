@@ -32,7 +32,12 @@ BASE_APPS = [
 
 LOCAL_APPS = []
 
-THIRD_APPS = []
+THIRD_APPS = [
+    'rest_framework',
+    'simple_history',
+    'drf_yasg',
+    'corsheaders',
+    'django_filters']  ## Aún no lo usaremos
 
 INSTALLED_APPS = BASE_APPS + LOCAL_APPS + THIRD_APPS
 
@@ -145,22 +150,13 @@ def read_key(path):
 
 JWT_PUBLIC_KEY = read_key(JWT_PUBLIC_KEY_PATH)
 
-SIMPLE_JWT = {
-    'ALGORITHM': 'RS256',   
-    'VERIFYING_KEY': JWT_PUBLIC_KEY,  
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),
-    'AUTH_HEADER_TYPES': ('Bearer',),
-    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
-    'USER_ID_FIELD': 'user_id',
-    'USER_ID_CLAIM': 'user_id',
-}
 
 
 # --- MEDIA CONFIG ---
 
 MEDIA_URL = '/media/'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.getenv('MEDIA_ROOT_PATH', os.path.join(BASE_DIR, 'media'))
 
 
 
