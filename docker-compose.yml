@@ -124,6 +124,7 @@ services:
     command: celery -A orders_project worker -l INFO
     volumes:
       - ./backend/orders:/usr/src/app
+      - ./secrets/users:/run/secrets:ro
       - ./media/orders:/usr/src/app/media
     env_file:
       - ./backend/orders/.env

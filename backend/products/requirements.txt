@@ -9,3 +9,4 @@ python-dotenv
 django-simple-history
 drf-yasg
 requests
+PyJWT

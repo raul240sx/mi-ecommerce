@@ -30,25 +30,44 @@ BASE_APPS = [
     'django.contrib.staticfiles',
 ]
 
-LOCAL_APPS = []
+LOCAL_APPS = [
+    'apps.orders',
+    'apps.base',
+]
 
 THIRD_APPS = [
     'rest_framework',
     'simple_history',
     'drf_yasg',
     'corsheaders',
-    'django_filters']  ## Aún no lo usaremos
+    'django_filters',]  ## Aún no lo usaremos
 
 INSTALLED_APPS = BASE_APPS + LOCAL_APPS + THIRD_APPS
 
 
+USERS_VERIFY_URL = 'http://users-service:8000/usuario/verify_token/'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'apps.base.custom_authentication.CustomAuthentication',
+    ),
+
+    "DEFAULT_PERMISSION_CLASSES": (
+        "rest_framework.permissions.IsAuthenticated",
+    ),
+}
+
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+
+    'apps.base.middleware.JWTVerificationMiddleware',
+
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -136,7 +155,9 @@ INTERNAL_SERVICE_KEY= os.getenv('INTERNAL_SERVICE_KEY')
 CALL_USERS_SERVICE = os.getenv('CALL_USERS_SERVICE', False)
 TOKEN_VERIFY_URL = os.getenv('TOKEN_VERIFY_URL')
 INTERNAL_SERVICE_KEY= os.getenv('INTERNAL_SERVICE_KEY')
+
 JWT_PUBLIC_KEY_PATH = os.getenv('JWT_PUBLIC_KEY_PATH')
+
 
 def read_key(path):
     if not path:

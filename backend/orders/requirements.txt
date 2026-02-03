@@ -11,3 +11,4 @@ cryptography
 django-filter
 django-simple-history
 django-cors-headers
+PyJWT
