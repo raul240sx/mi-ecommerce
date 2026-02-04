@@ -39,7 +39,7 @@ def validate_stock_items(expected_items, recieved_items):
         total_amount += (recieved_item['price'] * item['quantity']) 
 
         new_item = {
-            'id':item['product_id'],
+            'product_id':item['product_id'],
             'quantity':item['quantity'],
             'unit_price':recieved_item['price']
         }
@@ -59,10 +59,10 @@ def create_order_and_detail(user_id, total_amount, validated_order_items):
 
         details = []
 
-        for item in validated_order_items:
+        for item in validated_order_items.values():
 
             new_detail = OrderDetail(
-                product_id = item['id'],
+                product_id = item['product_id'],
                 quantity = item['quantity'],
                 unit_price = item['unit_price'],
                 order = order

@@ -1,0 +1,1 @@
+from .consult_produts_service import validate_and_get_products_info

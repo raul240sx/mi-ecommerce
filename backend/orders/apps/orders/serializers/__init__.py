@@ -1,2 +1,2 @@
-from .order_create_serializer import OrderCreateSerializer
+from .order_serializer import OrderSerializer
 from .order_detail_serializer import OrderDetailSerializer
