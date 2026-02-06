@@ -1,5 +1,7 @@
 import requests
 
+from decimal import Decimal
+
 from django.conf import settings
 from django.db import transaction
 
@@ -15,43 +17,36 @@ internal_key = settings.INTERNAL_SERVICE_KEY
 
 
 
-def validate_item_list(expected_items, recieved_items):
+def amount_and_item_info(expected_items, received_items):
 
-    for item in expected_items:
-        if recieved_items.get(str(item)) is None:
-            raise ValidationError(f'No se ha encontrado el producto id {item}')
-    
+    total_amount = Decimal('0')
 
-
-
-def validate_stock_items(expected_items, recieved_items):
-
-    total_amount = 0
-
-    validated_order_items = {}
+    order_items_info = {}
     
     for item in expected_items:
-        recieved_item = recieved_items.get(str(item['product_id']))
+        received_item = received_items.get(str(item['product_id']))
 
-        if item['quantity'] > recieved_item['stock']:
-            raise ValidationError(f'Stock insuficiente del producto id {item['product_id']}')
+        if received_item is None:
+            raise ValidationError('Producto del diccionario "received_items" faltante')
         
-        total_amount += (recieved_item['price'] * item['quantity']) 
+
+        price = Decimal(received_item['price'])
+        total_amount += (price * item['quantity']) 
 
         new_item = {
             'product_id':item['product_id'],
             'quantity':item['quantity'],
-            'unit_price':recieved_item['price']
+            'unit_price':price
         }
 
-        validated_order_items[item['product_id']] = new_item
+        order_items_info[item['product_id']] = new_item
     
-    return total_amount, validated_order_items
+    return total_amount, order_items_info
 
 
 
 
-def create_order_and_detail(user_id, total_amount, validated_order_items):
+def create_order_and_detail(user_id, total_amount, order_items_info):
 
     with transaction.atomic():
 
@@ -59,7 +54,7 @@ def create_order_and_detail(user_id, total_amount, validated_order_items):
 
         details = []
 
-        for item in validated_order_items.values():
+        for item in order_items_info.values():
 
             new_detail = OrderDetail(
                 product_id = item['product_id'],
@@ -83,33 +78,27 @@ def validate_and_get_products_info(order_items, user_id):
         'Content-Type':'application/json'
     }
 
-    items_id = []
-
-    products_url
-
-    for item in order_items:
-        items_id.append(item['product_id'])
-
-    query_params = {'ids':','.join(map(str, items_id))}
- 
+    payload = {'items':order_items}
 
     try:
-        request = requests.get(url=products_url, params=query_params, headers=header, timeout=5)
+        response = requests.post(url=products_url, json=payload, headers=header, timeout=5)
 
-        if request.status_code == 200:
-            items_info = request.json()
-            
-            validate_item_list(items_id, items_info)
+        if response.status_code == 200:
 
-            total_amount, validated_order_items = validate_stock_items(order_items, items_info)
-
-
-            order = create_order_and_detail(user_id, total_amount, validated_order_items)
-
+            items_info = response.json()
+            total_amount, order_items_info = amount_and_item_info(order_items, items_info)
+            order = create_order_and_detail(user_id, total_amount, order_items_info)
             return order
         
         else:
-            raise ValidationError('Fallo en peticion HTTP')
+            try:
+                error_data = response.json()
+                error_msg = error_data.get('detail', 'Error no especificado en el servicio de products-service')
+
+            except Exception:
+                error_msg = f'El servicio de productos devolvió un error inesperado (Status {response.status_code})'
+
+            raise ValidationError(error_msg)
         
     except requests.exceptions.RequestException as e:
         raise ValidationError('Error de conexión con el servicio de products-service')
