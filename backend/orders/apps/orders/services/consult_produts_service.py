@@ -79,7 +79,7 @@ def create_order_and_detail(user_id, total_amount, validated_order_items):
 def validate_and_get_products_info(order_items, user_id):
 
     header = {
-        'X-Internal_Service-Key':internal_key,
+        'Internal_Service-Key':internal_key,
         'Content-Type':'application/json'
     }
 

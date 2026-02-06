@@ -38,7 +38,7 @@ urlpatterns = [
 
    path('admin/', admin.site.urls),
 
-   path('product-api/', include('apps.products.urls'))
+   path('products-api/', include('apps.products.urls'))
 
 ]
 
