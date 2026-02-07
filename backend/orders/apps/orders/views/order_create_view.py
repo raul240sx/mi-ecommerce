@@ -5,7 +5,7 @@ from rest_framework.views import APIView
 from rest_framework.exceptions import ValidationError
 
 from apps.orders.services import validate_and_get_products_info
-from apps.orders.serializers import OrderSerializer
+from apps.orders.serializers.order_serializer import OrderSerializer
 
 
 

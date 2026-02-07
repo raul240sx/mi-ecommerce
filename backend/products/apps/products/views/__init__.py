@@ -1,4 +1,4 @@
 from .product_viewset import ProductViewSet
 from .category_viewset import CategoryViewSet
 from .measure_unit_viewset import MeasureUnitViewSet
-from .products_order_view import ProductsOrderView
+from .reserve_stock_view import ReserveStockView

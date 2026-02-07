@@ -1,2 +1,0 @@
-from .order_serializer import OrderSerializer
-from .order_detail_serializer import OrderDetailSerializer

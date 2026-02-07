@@ -32,7 +32,9 @@ class ReserveStockView(APIView):
     def validate_and_reserve_stock(self, items, products_info):
 
         for item in items:
-            product = products_info[item['product_id']]
+            product = products_info.get(item['product_id'])
+            if product is None:
+                raise ValidationError('Producto no encontrado para reservar stock')
             if item['quantity'] > product.stock:
                 raise ValidationError(f'No hay suficiente stock del producto id:{item['product_id']}')
             
