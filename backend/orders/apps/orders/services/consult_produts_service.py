@@ -37,6 +37,7 @@ def amount_and_item_info(expected_items, received_items):
 
         new_item = {
             'product_id':item['product_id'],
+            'name':received_item['name'],
             'quantity':item['quantity'],
             'unit_price':price
         }
@@ -60,6 +61,7 @@ def create_order_and_detail(user_id, total_amount, order_items_info):
 
             new_detail = OrderDetail(
                 product_id = item['product_id'],
+                product_title = item['name'],
                 quantity = item['quantity'],
                 unit_price = item['unit_price'],
                 order = order
@@ -93,7 +95,7 @@ def validate_and_get_products_info(order_items, user_id):
 
             try:
                 order = create_order_and_detail(user_id, total_amount, order_items_info)
-                release_stock_task.apply_async(args=[order.id], countdown=10)
+                release_stock_task.apply_async(args=[order.id], countdown=10) ########## Cambiar a 900
 
                 return order
 

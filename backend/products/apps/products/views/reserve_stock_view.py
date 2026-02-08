@@ -71,6 +71,7 @@ class ReserveStockView(APIView):
             response_data = {
                 str(product.id):{
                     'id':product.id,
+                    'name':product.name,
                     'price':str(product.price),
             } for product in products}
 
