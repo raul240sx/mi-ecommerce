@@ -15,7 +15,7 @@ ALLOWED_HOSTS = [
 
 CSRF_TRUSTED_ORIGINS = [
     'https://*.app.github.dev',
-    'https://localhost:7100'
+    'https://localhost:7200'
 ]
 
 # Database

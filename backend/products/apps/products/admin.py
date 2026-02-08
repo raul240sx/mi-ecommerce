@@ -6,11 +6,15 @@ from apps.products.models.measure_unit import MeasureUnit
 
 
 class MeasureUnitAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name')
+    list_display = ('id', 'name',)
 
 class CategoryProductAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name')    
+    list_display = ('id', 'name',)    
 
 admin.site.register(MeasureUnit, MeasureUnitAdmin)
 admin.site.register(Category, CategoryProductAdmin)
-admin.site.register(Product)
+
+@admin.register(Product)
+class OrderAdmin(admin.ModelAdmin):
+    # Campos que se verán como columnas en la tabla principal
+    list_display = ('id', 'name', 'price', 'stock',)

@@ -11,10 +11,8 @@ from apps.products.models.product import Product
 from apps.products.permissions.is_internal_service import IsInternalService
 
 
-
 class ReserveStockView(APIView):
     permission_classes = [IsInternalService]
-
 
 
     def validate_item_list(self, expected_items, products_info):
@@ -24,7 +22,7 @@ class ReserveStockView(APIView):
                 missing.append(item)
 
         if missing:
-            raise ValidationError(f'No se ha encontrado el/los producto(s) con id: {missing}')
+            raise ValidationError({'detail':f'No se ha encontrado el/los producto(s) con id: {missing}'})
 
 
 
@@ -34,12 +32,15 @@ class ReserveStockView(APIView):
         for item in items:
             product = products_info.get(item['product_id'])
             if product is None:
-                raise ValidationError('Producto no encontrado para reservar stock')
-            if item['quantity'] > product.stock:
-                raise ValidationError(f'No hay suficiente stock del producto id:{item['product_id']}')
+                raise ValidationError({'detail':'Producto no encontrado para reservar stock'})
             
-            product.stock -= item['quantity']
-
+            try:
+                if int(item['quantity']) > product.stock:
+                    raise ValidationError({'detail':f'No hay suficiente stock del producto id:{item['product_id']}'})
+                
+                product.stock -= item['quantity']
+            except (ValueError, KeyError):
+                raise ValidationError({'detail':f'Error en el formato de cantidad del item id: {item['product_id']}'})
 
 
 

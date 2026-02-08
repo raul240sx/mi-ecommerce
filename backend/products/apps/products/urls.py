@@ -2,7 +2,7 @@ from django.urls import path, include
 
 from rest_framework.routers import SimpleRouter
 
-from apps.products.views import ProductViewSet, CategoryViewSet, MeasureUnitViewSet, ReserveStockView
+from apps.products.views import ProductViewSet, CategoryViewSet, MeasureUnitViewSet, ReserveStockView, ReleaseStockView
 
 
 
@@ -15,7 +15,8 @@ router.register(r'measure_units', MeasureUnitViewSet, basename='measure_unit')
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('reserve-stock/', ReserveStockView.as_view(), name='reserve-stock')
+    path('reserve-stock/', ReserveStockView.as_view(), name='reserve-stock'),
+    path('release-stock/', ReleaseStockView.as_view(), name='release-stock')
     
 ]
 

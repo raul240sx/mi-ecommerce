@@ -49,26 +49,25 @@ class JWTVerificationMiddleware:
 
         for url in exemt_urls:
             if request_url.startswith(url):
-                request.user = AnonymousUser()
                 return self.get_response(request)
     
-        auth_header = request.headers.get('Authorization', None)
+        auth_header = request.headers.get('Authorization', None)    
 
         try:
-            token = auth_header.split() if auth_header and auth_header.startswith('Bearer ') else None
+            token = auth_header.split() if auth_header and auth_header.startswith('Bearer ') else None          
 
-            if token and len(token) > 1:
+            if token and len(token) > 1:            
                 claims = jwt.decode(
                     token[1],
                     self.public_key,
                     algorithms=['RS256']
-                )
+                )             
 
                 user_data = UserPayload(claims)
-                request.user = user_data
+                request.user = user_data                
 
                 return self.get_response(request)
-            
+                       
             request.user = AnonymousUser()
             return self.get_response(request)
         

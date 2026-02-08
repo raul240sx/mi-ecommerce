@@ -10,7 +10,7 @@ class Order(BaseModel):
     class Status(models.TextChoices):
         PENDING = 'PENDING', 'Pendiente'
         PAID = 'PAID', 'Pagado'
-        CANCELLED = 'CANCELLED', 'CANCELADO'
+        CANCELLED = 'CANCELLED', 'Cancelado'
 
 
     user_id = models.IntegerField('Orden del usuario')

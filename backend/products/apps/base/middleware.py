@@ -49,7 +49,6 @@ class JWTVerificationMiddleware:
 
         for url in exemt_urls:
             if request_url.startswith(url):
-                request.user = AnonymousUser()
                 return self.get_response(request)
     
         auth_header = request.headers.get('Authorization', None)

@@ -24,7 +24,7 @@ class OrderCreateView(APIView):
 
             serializer = OrderSerializer(order)
 
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response({'message':'Orden creada correctamente','Order':serializer.data}, status=status.HTTP_200_OK)
 
         except ValidationError as e:
             return Response({'detail':str(e)}, status=status.HTTP_400_BAD_REQUEST)

@@ -3,6 +3,7 @@ from django.db import transaction
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.exceptions import ValidationError
 
 from apps.products.permissions.is_internal_service import IsInternalService
 from apps.products.models.product import Product
@@ -15,14 +16,17 @@ class ReleaseStockView(APIView):
 
 
     def add_product_stock(self, items_to_return, products_info):
-        try:
-            for item in items_to_return:
-                product = products_info[item['product_id']]
-
+        
+        for item in items_to_return:
+            product = products_info.get(item['product_id'])
+            if product is None:
+                raise ValidationError({'detail':'Producto no encontrado para reservar stock'})
+            
+            try:
                 product.stock += int(item['quantity'])
 
-        except ValueError:
-            raise ValueError(f'Error en el formato de cantidad del item id: {item['product_id']}')
+            except ValueError:
+                raise ValidationError({'detail':f'Error en el formato de cantidad del item id: {item['product_id']}'})
 
 
 
