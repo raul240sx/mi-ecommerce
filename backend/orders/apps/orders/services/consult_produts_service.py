@@ -95,7 +95,7 @@ def validate_and_get_products_info(order_items, user_id):
 
             try:
                 order = create_order_and_detail(user_id, total_amount, order_items_info)
-                release_stock_task.apply_async(args=[order.id], countdown=10) ########## Cambiar a 900
+                release_stock_task.apply_async(args=[order.id], countdown=900) ########## Cambiar a 900
 
                 return order
 
