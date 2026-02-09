@@ -2,6 +2,10 @@ import mercadopago
 
 from django.conf import settings
 
+from apps.orders.models.order import Order
+from apps.base.exceptions import PaymentError
+
+
 
 
 ngrok_url = settings.NGROK_URL
@@ -14,37 +18,49 @@ class MercadoPagoService:
     
     def create_payment_preference(self, order):
 
-        order_items = order.order_items.all()
+        if order.status == Order.Status.PENDING:
 
-        items_list = []
+            order_items = order.order_items.all()
 
-        for item in order_items:
-            new_item = {
-                'title':item.product_title,
-                'quantity':item.quantity,
-                'unit_price':float(item.unit_price),
-                'currency_id':'CLP'
+            items_list = []
+
+            for item in order_items:
+                new_item = {
+                    'title':item.product_title,
+                    'quantity':item.quantity,
+                    'unit_price':int(item.unit_price),
+                    'currency_id':'CLP'
+                }
+
+                items_list.append(new_item)
+
+
+            preference_data = {
+                'items':items_list,
+                'auto_return':'approved',
+                'back_urls':{
+                    'success':f'{ngrok_url}/success/',
+                    'failure':f'{ngrok_url}/failure/',
+                    'pending':f'{ngrok_url}/pending/'
+                },
+                'external_reference':str(order.id),
+                'notification_url':f'{ngrok_url}/orders-api/webhook/'
             }
 
-            items_list.append(new_item)
+            preference_response = self.sdk.preference().create(preference_data)
+
+            return preference_response.get('response')
 
 
-        preference_data = {
-            'items':items_list,
-            'auto_return':'approved',
-            'back_urls':{
-                'success':f'{ngrok_url}/success',
-                'failure':f'{ngrok_url}/failure',
-                'pending':f'{ngrok_url}/pending'
-            },
-            'external_reference':str(order.id),
-            'notification_url':f'{ngrok_url}/orders-api/webhook'
-        }
+        elif order.status != Order.Status.PENDING:
+            raise PaymentError(f'La orden nro. {order.id} se encuentra en estado {order.status}. Proceso de pago inválido')
 
-        preference_response = self.sdk.preference().create(preference_data)
 
-        return preference_response.get('response')
 
+
+    def get_payment_info(self, payment_id):
+        
+        return self.sdk.payment().get(str(payment_id))
 
 
 

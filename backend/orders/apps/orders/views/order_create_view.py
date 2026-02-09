@@ -7,6 +7,7 @@ from rest_framework.exceptions import ValidationError
 from apps.orders.services import validate_and_get_products_info
 from apps.orders.serializers.order_serializer import OrderSerializer
 from apps.orders.services.mercadopago_service import MercadoPagoService
+from apps.base.exceptions import PaymentError
 
 
 
@@ -32,6 +33,10 @@ class OrderCreateView(APIView):
             try:
                 payment_preference = mp.create_payment_preference(order)
                 payment_init_point = payment_preference.get('init_point')
+
+            except PaymentError as e:
+                raise ValidationError({'detail':str(e)})
+            
             except Exception as e:
                 mp_error = True
 

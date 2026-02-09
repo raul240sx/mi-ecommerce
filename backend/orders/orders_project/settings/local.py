@@ -11,6 +11,7 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
     '.app.github.dev',      # <- para permitir subdominios de Codespaces
     'casaserver',
+    'overtenaciously-ordainable-davion.ngrok-free.dev'
 ]
 
 CSRF_TRUSTED_ORIGINS = [
