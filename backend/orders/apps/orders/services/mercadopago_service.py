@@ -7,16 +7,15 @@ from apps.base.exceptions import PaymentError
 
 
 
-
-ngrok_url = settings.NGROK_URL
-
-
 class MercadoPagoService:
     def __init__(self):
         self.sdk = mercadopago.SDK(settings.MERCADOPAGO_ACCESS_TOKEN)
 
     
     def create_payment_preference(self, order):
+        frontend_url = settings.FRONTEND_URL
+        api_url = f'https://{settings.DOMAIN_NAME}'
+
 
         if order.status == Order.Status.PENDING:
 
@@ -39,12 +38,12 @@ class MercadoPagoService:
                 'items':items_list,
                 'auto_return':'approved',
                 'back_urls':{
-                    'success':f'{ngrok_url}/success/',
-                    'failure':f'{ngrok_url}/failure/',
-                    'pending':f'{ngrok_url}/pending/'
+                    'success':f'{frontend_url}/success/',
+                    'failure':f'{frontend_url}/failure/',
+                    'pending':f'{frontend_url}/pending/'
                 },
                 'external_reference':str(order.id),
-                'notification_url':f'{ngrok_url}/orders-api/webhook/'
+                'notification_url':f'{api_url}/orders-api/webhook/'
             }
 
             preference_response = self.sdk.preference().create(preference_data)

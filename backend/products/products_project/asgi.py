@@ -1,16 +1,25 @@
-"""
-ASGI config for products_project project.
-
-It exposes the ASGI callable as a module-level variable named ``application``.
-
-For more information on this file, see
-https://docs.djangoproject.com/en/5.2/howto/deployment/asgi/
-"""
-
 import os
-
+from pathlib import Path
+from dotenv import load_dotenv
 from django.core.asgi import get_asgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'products_project.settings.local')
+
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+load_dotenv(BASE_DIR / '.env')
+
+
+
+debug_val = os.getenv('DEBUG')
+if debug_val is None:
+    raise RuntimeError("DEBUG no definido en el .env")
+
+
+if debug_val.lower() == 'true':
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'products_project.settings.local')
+else:
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'products_project.settings.production')
+
+
 
 application = get_asgi_application()

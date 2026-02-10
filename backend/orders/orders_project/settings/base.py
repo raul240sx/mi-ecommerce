@@ -12,12 +12,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 load_dotenv(BASE_DIR.parent / '.env')
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
-
-SECRET_KEY = os.getenv('SECRET_KEY')
-DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
-
 
 # Application definition
 
@@ -180,7 +174,7 @@ JWT_PUBLIC_KEY = read_key(JWT_PUBLIC_KEY_PATH)
 
 MEDIA_URL = '/media/'
 
-MEDIA_ROOT = os.getenv('MEDIA_ROOT_PATH', os.path.join(BASE_DIR, 'media'))
+MEDIA_ROOT = os.getenv('MEDIA_ROOT_PATH', '/usr/src/app/media')
 
 
 
@@ -188,4 +182,9 @@ MEDIA_ROOT = os.getenv('MEDIA_ROOT_PATH', os.path.join(BASE_DIR, 'media'))
 # --- MERCADOPAGO CONFIG ---
 MERCADOPAGO_PUBLIC_KEY = os.getenv('MP_PUBLIC_KEY')
 MERCADOPAGO_ACCESS_TOKEN = os.getenv('MP_ACCESS_TOKEN')
-NGROK_URL = os.getenv('NGROK_URL')
+
+
+
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+]

@@ -1,7 +1,8 @@
 from .base import *
 
 
-DEBUG = True
+SECRET_KEY = os.getenv('SECRET_KEY')
+DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
 
 ALLOWED_HOSTS = [
     'users-service',       # contenedor Docker interno

@@ -13,26 +13,6 @@ load_dotenv(BASE_DIR.parent / '.env')
 
 
 
-
-SECRET_KEY = os.getenv('SECRET_KEY')
-DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
-
-ALLOWED_HOSTS = [
-    'users-service',       # contenedor Docker interno
-    'products-service',    # contenedor Docker interno
-    'orders-service',      # contenedor Docker interno
-    'localhost',
-    '127.0.0.1',
-    '.app.github.dev'      # <- para permitir subdominios de Codespaces
-]
-
-CSRF_TRUSTED_ORIGINS = [
-    'https://*.app.github.dev',  
-    'https://localhost:7000',
-]
-
-# Application definition
-
 BASE_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -143,10 +123,7 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
@@ -203,4 +180,10 @@ CELERY_TIMEZONE = 'UTC'
 
 MEDIA_URL = '/media/'
 
-MEDIA_ROOT = os.getenv('MEDIA_ROOT_PATH', os.path.join(BASE_DIR, 'media'))
+MEDIA_ROOT = os.getenv('MEDIA_ROOT_PATH', '/usr/src/app/media')
+
+
+
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+]

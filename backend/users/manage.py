@@ -1,12 +1,35 @@
-#!/usr/bin/env python
-"""Django's command-line utility for administrative tasks."""
+from pathlib import Path
+from dotenv import load_dotenv
 import os
 import sys
 
+            
+
 
 def main():
+    BASE_DIR = Path(__file__).resolve().parent
+    load_dotenv(BASE_DIR / '.env')
+
+
+    debug_val = os.getenv('DEBUG')
+
+    if debug_val is None:
+        raise RuntimeError(
+            "ERROR CRÍTICO: La variable 'DEBUG' no está definida en el .env. "
+            "El sistema no puede determinar si debe usar settings de Local o Production."
+        )
+
+
+
     """Run administrative tasks."""
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'users_project.settings.local')
+    if debug_val.lower() == 'true':
+        settings_module = 'users_project.settings.local'
+    else:
+        settings_module = 'users_project.settings.production'
+
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', settings_module)
+
+
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:

@@ -10,9 +10,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 load_dotenv(BASE_DIR.parent / '.env')
 
-SECRET_KEY = os.getenv('SECRET_KEY')
-DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
-
 
 
 # Application definition
@@ -109,7 +106,7 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-STATIC_URL = 'static/'
+
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -139,4 +136,9 @@ JWT_PUBLIC_KEY = read_key(JWT_PUBLIC_KEY_PATH)
 
 MEDIA_URL = '/media/'
 
-MEDIA_ROOT = os.getenv('MEDIA_ROOT_PATH', os.path.join(BASE_DIR, 'media'))
+MEDIA_ROOT = os.getenv('MEDIA_ROOT_PATH', '/usr/src/app/media')
+
+
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+]
