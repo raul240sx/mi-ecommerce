@@ -10,12 +10,13 @@ load_dotenv(BASE_DIR / '.env')
 
 
 
-debug_val = os.getenv('DEBUG')
+#debug_val = os.getenv('DEBUG')
+debug_val = False
 if debug_val is None:
     raise RuntimeError("DEBUG no definido en el .env")
 
 
-if debug_val.lower() == 'true':
+if debug_val == 'true':
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'users_project.settings.local')
 else:
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'users_project.settings.production')

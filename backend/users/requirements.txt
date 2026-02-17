@@ -6,9 +6,10 @@ djangorestframework-simplejwt
 pillow
 python-dotenv
 django-simple-history
-drf-yasg
+drf-spectacular
 requests
 djangorestframework-simplejwt[crypto]
 celery
 celery[redis]
 redis
+gunicorn

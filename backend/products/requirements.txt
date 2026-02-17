@@ -7,6 +7,7 @@ djangorestframework-simplejwt[crypto]
 pillow
 python-dotenv
 django-simple-history
-drf-yasg
+drf-spectacular
 requests
 PyJWT
+gunicorn

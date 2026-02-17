@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework import viewsets
 from rest_framework.permissions import AllowAny
 
-from drf_yasg.utils import swagger_auto_schema
+from drf_spectacular.utils import extend_schema, extend_schema_view
 
 from apps.products.permissions.is_staff_permission import IsStaffPermission
 
@@ -13,8 +13,10 @@ from apps.products.serializers.product_serializer import ProductSerializer
 
 
 
-@method_decorator(name='list', decorator=swagger_auto_schema(security=[]))
-@method_decorator(name='retrieve', decorator=swagger_auto_schema(security=[]))
+@extend_schema_view(
+    list=extend_schema(auth=[]),     # Indica que no requiere token
+    retrieve=extend_schema(auth=[]), # Indica que no requiere token
+)
 class ProductViewSet(viewsets.ModelViewSet):
     serializer_class = ProductSerializer
 

@@ -20,6 +20,33 @@ CSRF_TRUSTED_ORIGINS = [
     'https://localhost:7100'
 ]
 
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Products API',
+    'VERSION': '0.1.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    'SWAGGER_UI_SETTINGS': {
+        'persistAuthorization': True,
+    },
+    'SWAGGER_UI_FAVICON_HREF': '/static/users/favicon.ico',
+}
+
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'apps.base.custom_authentication.CustomAuthentication',
+    ),
+
+    "DEFAULT_PERMISSION_CLASSES": (
+        "rest_framework.permissions.IsAuthenticated",
+    ),
+
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+
+
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 

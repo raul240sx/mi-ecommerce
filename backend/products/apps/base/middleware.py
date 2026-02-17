@@ -43,7 +43,7 @@ class JWTVerificationMiddleware:
 
 
     def __call__(self, request):
-        exemt_urls = ['/admin/', '/swagger/', '/redoc/']
+        exemt_urls = ['/products-api/admin/', '/products-api/swagger/', '/products-api/redoc/','/static/']
 
         request_url = request.path
 

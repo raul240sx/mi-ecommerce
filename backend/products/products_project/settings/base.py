@@ -31,7 +31,7 @@ LOCAL_APPS = [
 THIRD_APPS = [
     'rest_framework',
     'simple_history',
-    'drf_yasg',
+    'drf_spectacular',
     'corsheaders',
 ]
 
@@ -39,19 +39,7 @@ INSTALLED_APPS = BASE_APPS + LOCAL_APPS + THIRD_APPS
 
 USERS_VERIFY_URL = 'http://users-service:8000/usuario/verify_token/'
 
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'apps.base.custom_authentication.CustomAuthentication',
-    ),
 
-    "DEFAULT_PERMISSION_CLASSES": (
-        "rest_framework.permissions.IsAuthenticated",
-    ),
-}
-
-SWAGGER_SETTINGS = {
-    'DOC_EXPANSION': 'none'
-}
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',

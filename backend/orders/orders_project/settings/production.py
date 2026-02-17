@@ -14,14 +14,45 @@ CSRF_TRUSTED_ORIGINS = [f'https://{os.getenv('DOMAIN_NAME')}']
 
 
 
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Orders API',
+    'VERSION': '0.1.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    'SWAGGER_UI_SETTINGS': {
+        'persistAuthorization': True,
+    },
+    'SWAGGER_UI_FAVICON_HREF': '/static/users/favicon.ico',
+}
+
+
+STATIC_URL = '/static/orders/'
+STATIC_ROOT = '/usr/src/app/staticfiles'
+
+MEDIA_URL = '/media/orders/'
+MEDIA_ROOT = '/usr/src/app/media'
+
 # BLOQUE DE SEGURIDAD 
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-SECURE_SSL_REDIRECT = True
+SECURE_SSL_REDIRECT = False
+
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'apps.base.custom_authentication.CustomAuthentication',
+    ),
+
+    "DEFAULT_PERMISSION_CLASSES": (
+        "rest_framework.permissions.IsAuthenticated",
+    ),
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+
 
 # Database
-# https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
     'default': {
@@ -39,12 +70,7 @@ FRONTEND_URL=os.getenv('FRONTEND_URL')
 
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-# Cambia esto:
-STATIC_URL = '/static/orders/'
-STATIC_ROOT = '/usr/src/app/staticfiles'
-
-
-
+# --- MERCADOPAGO CONFIG ---
+MERCADOPAGO_PUBLIC_KEY = os.getenv('MP_PUBLIC_KEY')
+MERCADOPAGO_ACCESS_TOKEN = os.getenv('MP_ACCESS_TOKEN')

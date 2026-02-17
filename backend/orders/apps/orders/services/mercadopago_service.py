@@ -14,7 +14,7 @@ class MercadoPagoService:
     
     def create_payment_preference(self, order):
         frontend_url = settings.FRONTEND_URL
-        api_url = f'https://{settings.DOMAIN_NAME}'
+        api_url = f'https://api.guitarzone.cl'
 
 
         if order.status == Order.Status.PENDING:
