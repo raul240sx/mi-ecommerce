@@ -62,3 +62,21 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'proyectos.test1995@gmail.com'
 EMAIL_HOST_PASSWORD = 'nkys erds bpfw iyin'
 DEFAULT_FROM_EMAIL = 'Verificación App <proyectos.test1995@gmail.com>'
+
+
+# --- MEDIA CONFIG ---
+
+MEDIA_URL = '/media/'
+
+MEDIA_ROOT = os.getenv('MEDIA_ROOT_PATH', '/usr/src/app/media')
+
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Users API',
+    'VERSION': '0.1.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    'SWAGGER_UI_SETTINGS': {
+        'persistAuthorization': True,
+    },
+    'SWAGGER_UI_FAVICON_HREF': '/static/users/favicon.ico',
+}

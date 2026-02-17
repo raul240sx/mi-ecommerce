@@ -45,6 +45,9 @@ services:
 
   users-service:
     build: ./backend/users
+    environment:
+      - DJANGO_SETTINGS_MODULE=users_project.settings.local
+      - DJANGO_PROJECT_NAME=users_project
     volumes:
       - ./backend/users/apps:/usr/src/app/apps
       - ./backend/users/users_project:/usr/src/app/users_project
@@ -64,6 +67,9 @@ services:
 
   products-service:
     build: ./backend/products
+    environment:
+      - DJANGO_SETTINGS_MODULE=products_project.settings.local
+      - DJANGO_PROJECT_NAME=products_project
     volumes:
       - ./backend/products/apps:/usr/src/app/apps
       - ./backend/products/products_project:/usr/src/app/products_project
@@ -82,6 +88,9 @@ services:
 
   orders-service:
     build: ./backend/orders
+    environment:
+      - DJANGO_SETTINGS_MODULE=orders_project.settings.local
+      - DJANGO_PROJECT_NAME=orders_project
     volumes:
       - ./backend/orders/apps:/usr/src/app/apps
       - ./backend/orders/orders_project:/usr/src/app/orders_project
@@ -114,6 +123,10 @@ services:
   users-celery:
     build: ./backend/users
     command: celery -A users_project worker -l INFO
+    environment:
+      - DJANGO_SETTINGS_MODULE=users_project.settings.local
+      - DJANGO_PROJECT_NAME=users_project
+    entrypoint: []
     volumes:
       - ./backend/users/apps:/usr/src/app/apps
       - ./backend/users/users_project:/usr/src/app/users_project
@@ -130,6 +143,10 @@ services:
   orders-celery:
     build: ./backend/orders
     command: celery -A orders_project worker -l INFO
+    environment:
+      - DJANGO_SETTINGS_MODULE=users_project.settings.local
+      - DJANGO_PROJECT_NAME=users_project
+    entrypoint: []
     volumes:
       - ./backend/orders/apps:/usr/src/app/apps
       - ./backend/orders/orders_project:/usr/src/app/orders_project

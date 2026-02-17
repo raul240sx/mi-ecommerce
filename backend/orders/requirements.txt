@@ -6,9 +6,10 @@ mercadopago
 celery
 redis
 python-dotenv
-drf-yasg
+drf-spectacular
 cryptography
 django-filter
 django-simple-history
 django-cors-headers
 PyJWT
+gunicorn

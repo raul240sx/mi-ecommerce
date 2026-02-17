@@ -2,15 +2,13 @@ services:
   # -------------------
   # BASES DE DATOS
   # -------------------
-
   users-db:
-    image: postgres
+    image: postgres:15-alpine
     environment:
       POSTGRES_DB: users_db
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       PGDATA: /var/lib/postgresql/data/pgdata
-
     restart: always  
     volumes:
       - users_data:/var/lib/postgresql/data
@@ -18,13 +16,12 @@ services:
       - ecommerce_net
 
   products-db:
-    image: postgres
+    image: postgres:15-alpine
     environment:
       POSTGRES_DB: products_db
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       PGDATA: /var/lib/postgresql/data/pgdata
-
     restart: always
     volumes:
       - products_data:/var/lib/postgresql/data
@@ -32,13 +29,12 @@ services:
       - ecommerce_net
 
   orders-db:
-    image: postgres
+    image: postgres:15-alpine
     environment:
       POSTGRES_DB: orders_db
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       PGDATA: /var/lib/postgresql/data/pgdata
-
     restart: always
     volumes:
       - orders_data:/var/lib/postgresql/data
@@ -48,9 +44,15 @@ services:
   # -------------------
   # MICROSERVICIOS DJANGO
   # -------------------
-
   users-service:
-    build: ./backend/users
+    build:
+      context: ./backend/users
+      args:
+        USER_ID: 1000
+        GROUP_ID: 1000
+    environment:
+      - DJANGO_SETTINGS_MODULE=users_project.settings.production
+      - DJANGO_PROJECT_NAME=users_project
     volumes:
       - ./backend/users/apps:/usr/src/app/apps
       - ./backend/users/users_project:/usr/src/app/users_project
@@ -58,7 +60,6 @@ services:
       - ./secrets/users:/run/secrets:ro
       - ./media/users:/usr/src/app/media
       - static_users:/usr/src/app/staticfiles
-    
     restart: always      
     env_file:
       - ./backend/users/.env
@@ -68,7 +69,14 @@ services:
       - ecommerce_net
 
   products-service:
-    build: ./backend/products
+    build:
+      context: ./backend/products
+      args:
+        USER_ID: 1000
+        GROUP_ID: 1000
+    environment:
+      - DJANGO_SETTINGS_MODULE=products_project.settings.production
+      - DJANGO_PROJECT_NAME=products_project
     volumes:
       - ./backend/products/apps:/usr/src/app/apps
       - ./backend/products/products_project:/usr/src/app/products_project
@@ -76,7 +84,6 @@ services:
       - ./secrets/products:/run/secrets:ro
       - ./media/products:/usr/src/app/media
       - static_products:/usr/src/app/staticfiles
-    
     restart: always
     env_file:
       - ./backend/products/.env
@@ -86,7 +93,14 @@ services:
       - ecommerce_net
 
   orders-service:
-    build: ./backend/orders
+    build:
+      context: ./backend/orders
+      args:
+        USER_ID: 1000
+        GROUP_ID: 1000
+    environment:
+      - DJANGO_SETTINGS_MODULE=orders_project.settings.production
+      - DJANGO_PROJECT_NAME=orders_project
     volumes:
       - ./backend/orders/apps:/usr/src/app/apps
       - ./backend/orders/orders_project:/usr/src/app/orders_project
@@ -94,7 +108,6 @@ services:
       - ./secrets/orders:/run/secrets:ro
       - ./media/orders:/usr/src/app/media
       - static_orders:/usr/src/app/staticfiles
-
     restart: always
     env_file:
       - ./backend/orders/.env
@@ -103,26 +116,26 @@ services:
     networks:
       - ecommerce_net
 
-# -------------------
-# REDIS
-# -------------------
+  # -------------------
+  # INFRAESTRUCTURA (Redis, Workers, Nginx)
+  # -------------------
   redis-service:
-    image: redis
+    image: redis:alpine
     restart: always
     networks:
       - ecommerce_net
 
-# -------------------
-# CELERY WORKERS
-# -------------------
   users-celery:
     build: ./backend/users
-    command: celery -A users_project worker -l INFO
+    entrypoint: []
+    command: gosu appuser celery -A users_project worker -l INFO
+    environment:
+      - DJANGO_SETTINGS_MODULE=users_project.settings.production
+      - DJANGO_PROJECT_NAME=users_project
     volumes:
       - ./backend/users/apps:/usr/src/app/apps
       - ./backend/users/users_project:/usr/src/app/users_project
       - ./secrets/users:/run/secrets:ro
-      - ./media/users:/usr/src/app/media
     restart: always
     env_file:
       - ./backend/users/.env
@@ -131,16 +144,20 @@ services:
       - redis-service
     networks:
       - ecommerce_net
+    
 
   orders-celery:
     build: ./backend/orders
-    command: celery -A orders_project worker -l INFO
+    entrypoint: []
+    command: gosu appuser celery -A orders_project worker -l INFO
+    environment:
+      - DJANGO_SETTINGS_MODULE=orders_project.settings.production
+      - DJANGO_PROJECT_NAME=orders_project
     volumes:
       - ./backend/orders/apps:/usr/src/app/apps
       - ./backend/orders/orders_project:/usr/src/app/orders_project
       - ./secrets/users:/run/secrets:ro
       - ./media/orders:/usr/src/app/media
-    restart: always
     env_file:
       - ./backend/orders/.env
     depends_on:
@@ -149,13 +166,8 @@ services:
     networks:
       - ecommerce_net
 
-
-
-# -------------------
-# NGINX Proxy
-# -------------------
   nginx-api-gateway:
-    image: nginx:stable_alpine
+    image: nginx:stable-alpine
     container_name: nginx
     restart: always
     volumes:
@@ -166,15 +178,12 @@ services:
       - ./media/users:/usr/src/app/media_users:ro
       - ./media/products:/usr/src/app/media_products:ro
       - ./media/orders:/usr/src/app/media_orders:ro
-
     depends_on:
       - users-service
       - products-service
       - orders-service
-
     networks:
       - ecommerce_net
-
 
   tunnel-cloudflare:
     image: cloudflare/cloudflared:latest
@@ -183,12 +192,6 @@ services:
     networks:
       - ecommerce_net
 
-
-
-
-# -------------------
-# VOLUMENES Y REDES
-# -------------------
 volumes:
   users_data:
   products_data:

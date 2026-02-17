@@ -14,6 +14,8 @@ class AddressViewset(ModelViewSet):
     serializer_class = AddressSerializer
 
     def get_queryset(self):
+        if not self.request.user or not self.request.user.is_authenticated:
+            return Address.objects.none()
         return Address.objects.filter(user=self.request.user, is_active=True)
     
     def perform_destroy(self, instance):

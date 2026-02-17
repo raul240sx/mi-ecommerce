@@ -1,7 +1,0 @@
-media/
-*.env
-*.pyc
-__pycache__/
-.git/
-.gitignore
-.env*

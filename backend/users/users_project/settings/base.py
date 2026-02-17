@@ -3,6 +3,7 @@ from pathlib import Path
 import os
 from datetime import timedelta
 from dotenv import load_dotenv
+from django.contrib.admin import AdminSite
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -10,6 +11,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 load_dotenv(BASE_DIR.parent / '.env')
+
+
+
+
+
+# Personalización del admin
+AdminSite.site_header = 'Guitar Zone Admin'
+AdminSite.site_title = 'Guitar Zone'
+AdminSite.index_title = 'Panel de Administración'
 
 
 
@@ -32,30 +42,11 @@ THIRD_APPS = [
     'rest_framework.authtoken',
     'rest_framework_simplejwt',
     'simple_history',
-    'drf_yasg',
+    'drf_spectacular',
     'corsheaders',
 ]
 
 INSTALLED_APPS = BASE_APPS + LOCAL_APPS + THIRD_APPS
-
-
-
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ),
-    'DEFAULT_PERMISSION_CLASSES': (
-        "rest_framework.permissions.IsAuthenticated",
-    ),
-    'DEFAULT_THROTTLE_CLASSES': [
-        'rest_framework.throttling.AnonRateThrottle',
-    ],
-    'DEFAULT_THROTTLE_RATES': {
-        'anon': '100/day',
-        'password_reset': '10/min',     ## cambiar a 5/min
-        'register': '10/min',           ## cambiar a 2/min
-    }
-}
 
 
 
@@ -69,6 +60,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+
 
 ROOT_URLCONF = 'users_project.urls'
 
@@ -163,7 +156,6 @@ SIMPLE_JWT = {
 
 
 ## CELERY
-
 CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL', 'redis://redis-service:6379/0')
 CELERY_RESULT_BACKEND = os.getenv('CELERY_RESULT_BACKEND', 'redis://redis-service:6379/1')
 
@@ -174,15 +166,11 @@ CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'UTC'
 
 
-
-
-# --- MEDIA CONFIG ---
-
-MEDIA_URL = '/media/'
-
-MEDIA_ROOT = os.getenv('MEDIA_ROOT_PATH', '/usr/src/app/media')
-
-
+# SWAGGER
+SWAGGER_SETTINGS = {
+    'DOC_EXPANSION': 'none',
+    'DEFAULT_SCHEME': 'https',
+}
 
 STATICFILES_DIRS = [
     BASE_DIR / 'static',

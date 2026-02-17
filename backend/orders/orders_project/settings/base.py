@@ -32,7 +32,7 @@ LOCAL_APPS = [
 THIRD_APPS = [
     'rest_framework',
     'simple_history',
-    'drf_yasg',
+    'drf_spectacular',
     'corsheaders',
     'django_filters',]  ## Aún no lo usaremos
 
@@ -41,15 +41,7 @@ INSTALLED_APPS = BASE_APPS + LOCAL_APPS + THIRD_APPS
 
 USERS_VERIFY_URL = 'http://users-service:8000/usuario/verify_token/'
 
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'apps.base.custom_authentication.CustomAuthentication',
-    ),
 
-    "DEFAULT_PERMISSION_CLASSES": (
-        "rest_framework.permissions.IsAuthenticated",
-    ),
-}
 
 
 MIDDLEWARE = [
@@ -128,10 +120,6 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.2/howto/static-files/
-
-STATIC_URL = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
@@ -175,13 +163,6 @@ JWT_PUBLIC_KEY = read_key(JWT_PUBLIC_KEY_PATH)
 MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.getenv('MEDIA_ROOT_PATH', '/usr/src/app/media')
-
-
-
-
-# --- MERCADOPAGO CONFIG ---
-MERCADOPAGO_PUBLIC_KEY = os.getenv('MP_PUBLIC_KEY')
-MERCADOPAGO_ACCESS_TOKEN = os.getenv('MP_ACCESS_TOKEN')
 
 
 
