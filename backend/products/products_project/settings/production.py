@@ -10,18 +10,13 @@ if not SECRET_KEY:
 
 
 ALLOWED_HOSTS = [os.getenv('DOMAIN_NAME'), 'products-service']
-CSRF_TRUSTED_ORIGINS = [f"https://{os.getenv('DOMAIN_NAME')}"]
 
-# BLOQUE DE SEGURIDAD 
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-SECURE_SSL_REDIRECT = False
 
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'apps.base.custom_authentication.CustomAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
     ),
 
     "DEFAULT_PERMISSION_CLASSES": (
@@ -49,8 +44,6 @@ DATABASES = {
 
 
 # Static files 
-
-# Cambia esto:
 STATIC_URL = '/static/products/'
 STATIC_ROOT = '/usr/src/app/staticfiles'
 
@@ -72,3 +65,37 @@ SPECTACULAR_SETTINGS = {
         }
     },
 }
+
+
+# --- SEGURIDAD Y CORS PARA COOKIES ---
+SECURE_SSL_REDIRECT = False
+CORS_ALLOW_CREDENTIALS = True
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+    "https://guitarzone.cl",
+    "https://api.guitarzone.cl",
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    f"https://{os.getenv('DOMAIN_NAME')}",
+    "http://localhost:5173"
+]
+
+# Dominios de Cookies 
+SESSION_COOKIE_DOMAIN = None
+CSRF_COOKIE_DOMAIN = None
+
+# Atributos de seguridad
+SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_SECURE = True
+SESSION_COOKIE_SAMESITE = 'None'
+
+CSRF_HEADER_NAME = 'HTTP_X_CSRFTOKEN'
+CSRF_COOKIE_NAME = 'csrftoken'
+CSRF_COOKIE_HTTPONLY = False 
+CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_SAMESITE = 'None'
+
+# Confianza en Cloudflare
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')

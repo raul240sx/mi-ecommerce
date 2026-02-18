@@ -80,3 +80,33 @@ SPECTACULAR_SETTINGS = {
     },
     'SWAGGER_UI_FAVICON_HREF': '/static/users/favicon.ico',
 }
+
+
+# --- JWT CONFIG ---
+INTERNAL_SERVICE_KEY = os.getenv('INTERNAL_SERVICE_KEY')
+
+JWT_PRIVATE_KEY_PATH = os.getenv('JWT_PRIVATE_KEY_PATH')
+JWT_PUBLIC_KEY_PATH = os.getenv('JWT_PUBLIC_KEY_PATH')
+
+
+def read_key(path, name):
+    if not path:
+        raise ImproperlyConfigured(f'La ruta de la llave {name} JWT no está definida correctamente')
+
+    if not Path(path).exists():
+        raise ImproperlyConfigured(f'No se encontró la llave {name} en la ruta especificada')
+
+    return Path(path).read_text()
+
+
+JWT_PRIVATE_KEY = read_key(JWT_PRIVATE_KEY_PATH, 'privada')
+JWT_PUBLIC_KEY = read_key(JWT_PUBLIC_KEY_PATH, 'publica')
+
+SIMPLE_JWT = {
+    "ALGORITHM": 'RS256',
+    "SIGNING_KEY": JWT_PRIVATE_KEY,   
+    "VERIFYING_KEY": JWT_PUBLIC_KEY,  
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=15),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
+    "AUTH_HEADER_TYPES": ('Bearer',),
+}

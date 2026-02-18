@@ -9,8 +9,7 @@ if not SECRET_KEY:
     raise ImproperlyConfigured("La variable SECRET_KEY no está configurada en el entorno de producción.")
 
 
-ALLOWED_HOSTS = [os.getenv('DOMAIN_NAME')]
-CSRF_TRUSTED_ORIGINS = [f'https://{os.getenv('DOMAIN_NAME')}']
+ALLOWED_HOSTS = [os.getenv('DOMAIN_NAME'), 'orders-service']
 
 
 
@@ -31,17 +30,13 @@ STATIC_ROOT = '/usr/src/app/staticfiles'
 MEDIA_URL = '/media/orders/'
 MEDIA_ROOT = '/usr/src/app/media'
 
-# BLOQUE DE SEGURIDAD 
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-SECURE_SSL_REDIRECT = False
 
 
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'apps.base.custom_authentication.CustomAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
     ),
 
     "DEFAULT_PERMISSION_CLASSES": (
@@ -74,3 +69,37 @@ FRONTEND_URL=os.getenv('FRONTEND_URL')
 # --- MERCADOPAGO CONFIG ---
 MERCADOPAGO_PUBLIC_KEY = os.getenv('MP_PUBLIC_KEY')
 MERCADOPAGO_ACCESS_TOKEN = os.getenv('MP_ACCESS_TOKEN')
+
+
+# --- SEGURIDAD Y CORS PARA COOKIES ---
+SECURE_SSL_REDIRECT = False
+CORS_ALLOW_CREDENTIALS = True
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+    "https://guitarzone.cl",
+    "https://api.guitarzone.cl",
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    f"https://{os.getenv('DOMAIN_NAME')}",
+    "http://localhost:5173"
+]
+
+# Dominios de Cookies
+SESSION_COOKIE_DOMAIN = None
+CSRF_COOKIE_DOMAIN = None
+
+# Atributos de seguridad
+SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_SECURE = True
+SESSION_COOKIE_SAMESITE = 'None'
+
+CSRF_HEADER_NAME = 'HTTP_X_CSRFTOKEN'
+CSRF_COOKIE_NAME = 'csrftoken'
+CSRF_COOKIE_HTTPONLY = False 
+CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_SAMESITE = 'None'
+
+# Confianza en Cloudflare
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
