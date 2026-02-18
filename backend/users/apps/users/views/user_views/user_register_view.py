@@ -1,5 +1,7 @@
 from django.db import transaction
 from django.db import IntegrityError
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie
 
 from rest_framework import status
 from rest_framework.exceptions import ValidationError
@@ -14,6 +16,9 @@ from apps.users.tasks.email_verification import send_verification_email_task
 
 
 
+
+@method_decorator(csrf_exempt, name='dispatch')
+@method_decorator(ensure_csrf_cookie, name='dispatch')
 class UserRegisterAPIView(CreateAPIView):
     serializer_class = UserCreateSerializer
     permission_classes = [AllowAny]

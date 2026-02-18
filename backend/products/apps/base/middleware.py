@@ -52,13 +52,21 @@ class JWTVerificationMiddleware:
                 return self.get_response(request)
     
         auth_header = request.headers.get('Authorization', None)
+        token_str = None
+
+        if auth_header and auth_header.startswith('Bearer '):
+            parts = auth_header.split()
+            if len(parts) > 1:
+                token_str = parts[1]
+        
+        # 2. Si no hay header, intentar obtener de la Cookie
+        if not token_str:
+            token_str = request.COOKIES.get('access_token')
 
         try:
-            token = auth_header.split() if auth_header and auth_header.startswith('Bearer ') else None
-
-            if token and len(token) > 1:
+            if token_str:
                 claims = jwt.decode(
-                    token[1],
+                    token_str,
                     self.public_key,
                     algorithms=['RS256']
                 )
@@ -72,8 +80,8 @@ class JWTVerificationMiddleware:
             return self.get_response(request)
         
         except jwt.PyJWTError:
-            if self.try_call_verify and token and len(token) > 1:
-                claims = self.call_users_service(token[1])
+            if self.try_call_verify and token_str:
+                claims = self.call_users_service(token_str)
 
                 if claims == 'connect_error':
                     return JsonResponse({"detail": "Auth service unavailable"}, status=503)
