@@ -13,15 +13,15 @@ class AddressInline(admin.TabularInline):
 
 
 class UserAdmin(BaseUserAdmin):
-    list_display = ("email", "first_name", "last_name", "is_active", "is_staff")
-    list_filter = ("is_active", "is_staff")
+    list_display = ("email", "first_name", "last_name", "is_active", "is_staff", "is_verified")
+    list_filter = ("is_active", "is_staff", "is_verified")
     search_fields = ("email", "first_name", "last_name")
     ordering = ("email",)
 
     fieldsets = (
         (None, {"fields": ("email", "password")}),
         ("Información personal", {"fields": ("first_name", "last_name", "phone")}),
-        ("Estado", {"fields": ("is_active", "is_staff")}),
+        ("Estado", {"fields": ("is_active", "is_staff", "is_verified")}),
         ("Borrado lógico", {"fields": ("deleted_at", "deleted_by")}),
     )
 

@@ -21,14 +21,24 @@ class UserCreateSerializer(serializers.ModelSerializer):
         read_only_fields = ['id']
 
         extra_kwargs = {
-            'password':{'write_only':True},
+            'password':{
+                'write_only':True,
+                'error_messages': {
+                'blank': ['El campo Contraseña no puede estar vacío.'],
+                'required': ['Este campo es obligatorio.'],
+                }
+            },
             'email': {
                 'validators': [
                     UniqueValidator(
                         queryset=User.objects.all(),
-                        message='Ya existe un usuario registrado con este email'
+                        message=['Ya existe un usuario registrado con este email']
                     )
-                ]
+                ],
+                'error_messages':{
+                    'invalid': ['Por favor, introduce una dirección de correo válida.'],
+                    'blank':['El correo electrónico no puede estar vacío.']
+                }
             }
         }
 
@@ -45,11 +55,13 @@ class UserCreateSerializer(serializers.ModelSerializer):
         try:
             validate_password(value)
         except django_exceptions.ValidationError:
-            raise serializers.ValidationError('Contraseña no válida. La contraseña debe cumplir:\n'
-            '1. Mínimo 8 caracteres.\n'
-            '2. No ser similar a tu email.\n'
-            '3. No ser una contraseña muy común.\n'
-            '4. No ser exclusivamente numérica.')
+            raise serializers.ValidationError([
+                    'Mínimo 8 caracteres',
+                    'No ser similar a tu email',
+                    'No ser una contraseña muy común',
+                    'No ser exclusivamente numérica'
+                    ]
+                )
         
         return value
 

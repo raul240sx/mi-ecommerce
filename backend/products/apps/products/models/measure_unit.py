@@ -5,7 +5,7 @@ from apps.base.models import BaseModel
 
 
 class MeasureUnit(BaseModel):
-    name = models.CharField('Unidad de medida', max_length=20, unique=True)
+    name = models.CharField('Unidad de medida', max_length=50, unique=True)
 
     class Meta:
         verbose_name = 'Unidad de Medida'

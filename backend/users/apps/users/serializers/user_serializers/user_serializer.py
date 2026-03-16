@@ -16,5 +16,6 @@ class UserSerializer(serializers.ModelSerializer):
             'email',
             'phone',
             'date_joined',
-            'is_profile_complete'
+            'is_verified',
+            'is_profile_complete',
         ]

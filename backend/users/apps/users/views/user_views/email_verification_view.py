@@ -8,6 +8,7 @@ from apps.users.serializers.user_serializers.email_verification_serializer impor
 
 class EmailVerificationView(APIView):
     permission_classes = [AllowAny]
+    authentication_classes = []
 
     def post(self, request):
         
