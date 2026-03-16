@@ -12,7 +12,7 @@ class OrderView(APIView):
     def get(self, request, *args, **kwargs):
         request_user = request.user.id
 
-        order_id = kwargs['id']
+        order_id = kwargs.get('id')
         order = OrderSerializer.Meta.model.objects.filter(id=order_id, state=True).prefetch_related('order_items').first()
 
         if order and request_user == order.user_id:

@@ -8,13 +8,16 @@ class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = [
+            'id',
             'name',
             'description',
             'price',
             'category',
             'measure_unit',
-            'image'
+            'image',
+            'stock',
         ]
+        read_only_fields = ['id']
 
 
     def to_representation(self, instance):

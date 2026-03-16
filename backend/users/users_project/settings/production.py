@@ -20,7 +20,7 @@ MEDIA_ROOT = '/usr/src/app/media'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'apps.users.auth.authentication.CookieJWTAuthentication',
         'rest_framework.authentication.SessionAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': (
@@ -57,7 +57,7 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
-SITE_URL = 'http://192.168.1.201:3000'
+SITE_URL = 'https://guitarzone.cl'
 SITE_NAME = 'Guitar Zone'
 VERIFY_URL_PATH = 'auth/verify-email'
 RESET_URL_PATH = 'auth/password-reset-confirm'
@@ -85,19 +85,19 @@ JWT_PRIVATE_KEY = read_key(JWT_PRIVATE_KEY_PATH, 'privada')
 JWT_PUBLIC_KEY = read_key(JWT_PUBLIC_KEY_PATH, 'publica')
 
 SIMPLE_JWT = {
-    "ALGORITHM": 'RS256',
-    "SIGNING_KEY": JWT_PRIVATE_KEY,   
-    "VERIFYING_KEY": JWT_PUBLIC_KEY,  
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=15),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
-    "AUTH_HEADER_TYPES": ('Bearer',),
+    'ALGORITHM': 'RS256',
+    'SIGNING_KEY': JWT_PRIVATE_KEY,   
+    'VERIFYING_KEY': JWT_PUBLIC_KEY,  
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+    'AUTH_HEADER_TYPES': ('Bearer',),
 
-    "AUTH_COOKIE": "access_token",
-    "AUTH_COOKIE_REFRESH": "refresh_token",
-    "AUTH_COOKIE_SECURE": True,
-    "AUTH_COOKIE_HTTPONLY": True,
-    "AUTH_COOKIE_PATH": "/",
-    "AUTH_COOKIE_SAMESITE": "None",
+    'AUTH_COOKIE': 'access_token',
+    'AUTH_COOKIE_REFRESH': 'refresh_token',
+    'AUTH_COOKIE_SECURE': True,
+    'AUTH_COOKIE_HTTPONLY': True,
+    'AUTH_COOKIE_PATH': '/',
+    'AUTH_COOKIE_SAMESITE': 'None',
 }
 
 
@@ -107,14 +107,15 @@ SECURE_SSL_REDIRECT = False
 CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
-    "https://guitarzone.cl",
-    "https://api.guitarzone.cl",
+    'http://localhost:5173',
+    'https://guitarzone.cl',
+    'https://api.guitarzone.cl',
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    f"https://{os.getenv('DOMAIN_NAME')}",
-    "http://localhost:5173"
+    f'https://{os.getenv('DOMAIN_NAME')}',
+    'http://localhost:5173',
+    'https://guitarzone.cl',
 ]
 
 
@@ -138,4 +139,8 @@ CSRF_COOKIE_SAMESITE = 'None'
 # 5. Confianza en Cloudflare
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
+
+
+VERIFY_URL_PATH = 'email-verification/'
+SITE_URL
  

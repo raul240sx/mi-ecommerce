@@ -9,12 +9,12 @@ class LogoutTokenView(APIView):
     def post(self, request, *args, **kwargs):
 
         response = Response(
-            {'detail':'Sesion cerrada correctamente'},
-            status=status.HTTP_200_OK
-            )
+        {'detail':'Sesion cerrada correctamente'},
+        status=status.HTTP_200_OK
+        )
 
-        response.delete_cookie('access_token', samesite='None', secure=True)
-        response.delete_cookie('refresh_token', samesite='None', secure=True)
+        response.delete_cookie('access_token')
+        response.delete_cookie('refresh_token')
 
 
         return response

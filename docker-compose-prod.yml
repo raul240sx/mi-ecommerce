@@ -82,7 +82,7 @@ services:
       - ./backend/products/products_project:/usr/src/app/products_project
       - ./backend/products/manage.py:/usr/src/app/manage.py
       - ./secrets/products:/run/secrets:ro
-      - ./media/products:/usr/src/app/media
+      - ./media:/usr/src/app/media
       - static_products:/usr/src/app/staticfiles
     restart: always
     env_file:

@@ -10,6 +10,7 @@ from apps.users.views.user_views.email_verification_view import EmailVerificatio
 from apps.users.views.token_views.token_login_view import TokenLoginView
 from apps.users.views.address_views.address_viewset import AddressViewset
 from apps.users.views.token_views.token_verify_view import TokenVerifyView
+from apps.users.views.token_views.logout_view import LogoutTokenView
 
 router = SimpleRouter()
 router.register(r'addresses', AddressViewset, basename='address')
@@ -21,6 +22,7 @@ urlpatterns = [
     # Autenticación y Registro
     path('register/', UserRegisterAPIView.as_view(), name='user-register'),
     path('login/', TokenLoginView.as_view(), name='login'),
+    path('logout/', LogoutTokenView.as_view(), name='logout'),
     
     # Perfil y Verificación
     path('me/', UserRetrieveUpdateAPIView.as_view(), name='user-me'),

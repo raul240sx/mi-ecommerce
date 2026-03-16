@@ -14,11 +14,15 @@ from apps.products.serializers.product_serializer import ProductSerializer
 
 
 @extend_schema_view(
-    list=extend_schema(auth=[]),     # Indica que no requiere token
-    retrieve=extend_schema(auth=[]), # Indica que no requiere token
+    list=extend_schema(auth=[]),     
+    retrieve=extend_schema(auth=[]), 
 )
 class ProductViewSet(viewsets.ModelViewSet):
     serializer_class = ProductSerializer
+
+    filterset_fields = ['category'] 
+    search_fields = ['name', 'description']
+    ordering_fields = ['price', 'created_at']
 
     def get_queryset(self):
         queryset = self.get_serializer().Meta.model.objects.filter(state=True).select_related('category', 'measure_unit')

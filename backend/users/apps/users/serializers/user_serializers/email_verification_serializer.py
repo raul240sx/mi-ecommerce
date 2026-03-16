@@ -20,8 +20,9 @@ class EmailVerificationSerializer(serializers.Serializer):
         except (User.DoesNotExist, DjangoUnicodeDecodeError, OverflowError, ValueError, TypeError):
             raise serializers.ValidationError({'detail':'El enlace de restablecimiento es inválido o ha expirado.'})
         
-        if user.is_verified == True:
-                raise serializers.ValidationError({'detail':'El usuario ya se encuentra verificado'})
+        if user.is_verified:
+            self.user = user
+            return attrs
     
         token = EmailVerificationTokenGenerator().check_token(user, attrs.get('token'))
 
@@ -33,8 +34,9 @@ class EmailVerificationSerializer(serializers.Serializer):
         return attrs
     
     def save(self):
-        self.user.is_verified = True
-        self.user.save(update_fields=['is_verified'])
+        if not self.user.is_verified:
+            self.user.is_verified = True
+            self.user.save(update_fields=['is_verified'])
 
         return self.user
         

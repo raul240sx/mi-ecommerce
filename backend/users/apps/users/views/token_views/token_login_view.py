@@ -4,6 +4,7 @@ from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie
 
 from rest_framework_simplejwt.views import TokenObtainPairView
 from apps.users.serializers.token_serializers.token_login_serializer import TokenLoginSerializer
+from apps.users.permissions.is_not_authenticated import IsNotAuthenticated
 
 
 
@@ -11,6 +12,8 @@ from apps.users.serializers.token_serializers.token_login_serializer import Toke
 @method_decorator(csrf_exempt, name='dispatch')
 @method_decorator(ensure_csrf_cookie, name='dispatch')
 class TokenLoginView(TokenObtainPairView):
+    permissions = [IsNotAuthenticated]
+
     serializer_class = TokenLoginSerializer
 
     def post(self, request, *args, **kwargs):

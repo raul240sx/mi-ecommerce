@@ -42,11 +42,11 @@ def send_verification_email_task(self, user_id):
         template_name = 'emails/verification_email.html'
         verify_link = f'{settings.SITE_URL}/{settings.VERIFY_URL_PATH}?uidb64={uidb64}&token={token}'
 
-        #'verify_link': verify_link,  ### Por pruebas voy a poner la ip de mi server con su endpoint de react router
+    
 
         context = {
             'username':user.email.split('@')[0],
-            'verify_link': f'http://192.168.1.201:5173/email-verification?uidb64={uidb64}&token={token}',
+            'verify_link': verify_link,
             'site_name': settings.SITE_NAME,
         }
 

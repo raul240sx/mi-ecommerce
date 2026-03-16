@@ -10,4 +10,5 @@ django-simple-history
 drf-spectacular
 requests
 PyJWT
+django-filter
 gunicorn
