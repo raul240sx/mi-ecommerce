@@ -74,7 +74,7 @@ class ReserveStockView(APIView):
                     'id':product.id,
                     'name':product.name,
                     'price':str(product.price),
-                    'image_url':f'{settings.DOMAIN_URL}{product.image.url}',
+                    'image_url':f'{settings.DOMAIN_URL}{product.image.url}' if product.image else None,
             } for product in products}
 
         return Response(response_data, status=status.HTTP_200_OK)

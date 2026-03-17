@@ -40,7 +40,7 @@ def amount_and_item_info(expected_items, received_items):
             'name':received_item['name'],
             'quantity':item['quantity'],
             'unit_price':price,
-            'image_url':item['image_url']
+            'image_url':received_item['image_url']
         }
 
         order_items_info[item['product_id']] = new_item
