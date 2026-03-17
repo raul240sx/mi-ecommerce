@@ -1,4 +1,5 @@
 from django.db import transaction
+from django.conf import settings
 
 from rest_framework import status
 from rest_framework.views import APIView
@@ -73,6 +74,7 @@ class ReserveStockView(APIView):
                     'id':product.id,
                     'name':product.name,
                     'price':str(product.price),
+                    'image_url':f'{settings.DOMAIN_URL}{product.image.url}',
             } for product in products}
 
         return Response(response_data, status=status.HTTP_200_OK)
