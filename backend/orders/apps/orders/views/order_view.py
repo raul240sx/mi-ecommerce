@@ -15,7 +15,7 @@ class OrderView(APIView):
         order_id = kwargs.get('id')
         order = OrderSerializer.Meta.model.objects.filter(id=order_id, state=True).prefetch_related('order_items').first()
 
-        if order and request_user == order.user_id:
+        if order and (request_user == str(order.user_id)):
             serializer = OrderSerializer(order)
             return Response(serializer.data, status=status.HTTP_200_OK)
         

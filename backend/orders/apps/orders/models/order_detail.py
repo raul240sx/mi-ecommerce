@@ -8,6 +8,7 @@ class OrderDetail(models.Model):
     product_title = models.CharField('Nombre del producto', max_length=50, blank=True, null=True)
     quantity = models.IntegerField('Cantidad del producto')
     unit_price = models.DecimalField('Precio unitario', max_digits=8, decimal_places=0)
+    image_url = models.URLField('URL de imágen del producto', blank=True, null=True)
     order = models.ForeignKey('Order', on_delete=models.CASCADE, related_name='order_items')
 
 

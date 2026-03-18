@@ -11,7 +11,7 @@ class BaseModel(models.Model):
     modified_date = models.DateTimeField('Fecha de modificación', auto_now=True)
     modified_by = models.IntegerField('Modificado por', blank=True, null=True)
     deleted_date = models.DateTimeField('Fecha de eliminación', null=True, blank=True)
-    deleted_by = models.IntegerField('ID de usuario', blank=True, null=True)
+    deleted_by = models.IntegerField('Eliminado por', blank=True, null=True)
 
 
     def save(self, *args, **kwargs):

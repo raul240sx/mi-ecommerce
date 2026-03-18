@@ -39,7 +39,8 @@ def amount_and_item_info(expected_items, received_items):
             'product_id':item['product_id'],
             'name':received_item['name'],
             'quantity':item['quantity'],
-            'unit_price':price
+            'unit_price':price,
+            'image_url':received_item['image_url']
         }
 
         order_items_info[item['product_id']] = new_item
@@ -64,6 +65,7 @@ def create_order_and_detail(user_id, total_amount, order_items_info):
                 product_title = item['name'],
                 quantity = item['quantity'],
                 unit_price = item['unit_price'],
+                image_url = item['image_url'],
                 order = order
             )
 
@@ -95,7 +97,7 @@ def validate_and_get_products_info(order_items, user_id):
 
             try:
                 order = create_order_and_detail(user_id, total_amount, order_items_info)
-                release_stock_task.apply_async(args=[order.id], countdown=900) ########## Cambiar a 900
+                release_stock_task.apply_async(args=[order.id], countdown=1800) ########## Cambiar a 900
 
                 return order
 

@@ -25,7 +25,7 @@ class OrderCreateView(APIView):
 
             response_data = {
                 'message':'Orden creada correctamente',
-                'Order':serializer.data,
+                'order':serializer.data,
                 }
 
             return Response(response_data, status=status.HTTP_201_CREATED)

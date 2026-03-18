@@ -65,11 +65,11 @@ SPECTACULAR_SETTINGS = {
     'COMPONENT_SPLIT_PATCH': True,
     'SECURITY': [{'BearerAuth': []}],
     'APPEND_COMPONENTS': {
-        "securitySchemes": {
-            "BearerAuth": {
-                "type": "http",
-                "scheme": "bearer",
-                "bearerFormat": "JWT",
+        'securitySchemes': {
+            'BearerAuth': {
+                'type': 'http',
+                'scheme': 'bearer',
+                'bearerFormat': 'JWT',
             }
         }
     },
@@ -81,19 +81,19 @@ SECURE_SSL_REDIRECT = False
 CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
-    "https://guitarzone.cl",
-    "https://api.guitarzone.cl",
+    'http://localhost:5173',
+    'https://guitarzone.cl',
+    'https://api.guitarzone.cl',
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    f"https://{os.getenv('DOMAIN_NAME')}",
-    "http://localhost:5173"
+    f'https://{os.getenv('DOMAIN_NAME')}',
+    'http://localhost:5173'
 ]
 
-# Dominios de Cookies 
-SESSION_COOKIE_DOMAIN = None
-CSRF_COOKIE_DOMAIN = None
+# Dominios de Cookies
+SESSION_COOKIE_DOMAIN = '.guitarzone.cl'
+CSRF_COOKIE_DOMAIN = '.guitarzone.cl'
 
 # Atributos de seguridad
 SESSION_COOKIE_HTTPONLY = True
@@ -108,3 +108,6 @@ CSRF_COOKIE_SAMESITE = 'None'
 
 # Confianza en Cloudflare
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+
+DOMAIN_URL = f'https://{os.getenv('DOMAIN_NAME')}'
