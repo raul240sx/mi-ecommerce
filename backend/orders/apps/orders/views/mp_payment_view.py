@@ -23,7 +23,7 @@ class MpPaymentView(APIView):
         order_id = kwargs.get('id')
         order = Order.objects.filter(id=order_id, state=True).first()
 
-        if (user_id != order.user_id) or (not order) or (order.status != Order.Status.PENDING):
+        if (user_id != str(order.user_id)) or (not order) or (order.status != Order.Status.PENDING):
             return Response({'message':'Solicitud de pago no válida'}, status=status.HTTP_400_BAD_REQUEST)
 
         
