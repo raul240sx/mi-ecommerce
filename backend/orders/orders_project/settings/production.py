@@ -87,8 +87,8 @@ CSRF_TRUSTED_ORIGINS = [
 ]
 
 # Dominios de Cookies
-SESSION_COOKIE_DOMAIN = None
-CSRF_COOKIE_DOMAIN = None
+SESSION_COOKIE_DOMAIN = '.guitarzone.cl'
+CSRF_COOKIE_DOMAIN = '.guitarzone.cl'
 
 # Atributos de seguridad
 SESSION_COOKIE_HTTPONLY = True

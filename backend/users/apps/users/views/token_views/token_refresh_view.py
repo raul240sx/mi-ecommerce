@@ -38,7 +38,8 @@ class CustomTokenRefreshView(TokenRefreshView):
                     httponly=True,
                     secure=True,
                     samesite='None',
-                    max_age=access_lifetime
+                    max_age=access_lifetime,
+                    domain=getattr(settings, 'SESSION_COOKIE_DOMAIN', None)
                 )   
 
         return response

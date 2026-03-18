@@ -91,9 +91,9 @@ CSRF_TRUSTED_ORIGINS = [
     'http://localhost:5173'
 ]
 
-# Dominios de Cookies 
-SESSION_COOKIE_DOMAIN = None
-CSRF_COOKIE_DOMAIN = None
+# Dominios de Cookies
+SESSION_COOKIE_DOMAIN = '.guitarzone.cl'
+CSRF_COOKIE_DOMAIN = '.guitarzone.cl'
 
 # Atributos de seguridad
 SESSION_COOKIE_HTTPONLY = True

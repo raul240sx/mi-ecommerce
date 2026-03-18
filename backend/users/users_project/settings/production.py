@@ -119,10 +119,9 @@ CSRF_TRUSTED_ORIGINS = [
 ]
 
 
-#SESSION_COOKIE_DOMAIN = ".guitarzone.cl"
-#CSRF_COOKIE_DOMAIN = ".guitarzone.cl"
-SESSION_COOKIE_DOMAIN = None
-CSRF_COOKIE_DOMAIN = None     ## cambiar cuando frontend tenga dominio
+# Dominios de Cookies
+SESSION_COOKIE_DOMAIN = '.guitarzone.cl'
+CSRF_COOKIE_DOMAIN = '.guitarzone.cl'
 
 
 # 4. Atributos de seguridad (Obligatorios para SameSite=None)
