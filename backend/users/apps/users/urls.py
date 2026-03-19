@@ -11,6 +11,7 @@ from apps.users.views.token_views.token_login_view import TokenLoginView
 from apps.users.views.address_views.address_viewset import AddressViewset
 from apps.users.views.token_views.token_verify_view import TokenVerifyView
 from apps.users.views.token_views.logout_view import LogoutTokenView
+from apps.users.views.token_views.token_refresh_view import CustomTokenRefreshView
 
 router = SimpleRouter()
 router.register(r'addresses', AddressViewset, basename='address')
@@ -33,6 +34,6 @@ urlpatterns = [
     path('password-reset-confirm/', PasswordResetConfirmView.as_view(), name='password-reset-confirm'),
 
     # JWT Tokens
-    path('token/refresh/', TokenRefreshView.as_view(), name='token-refresh'),
+    path('token/refresh/', CustomTokenRefreshView.as_view(), name='token-refresh'),
     path('token-verify/', TokenVerifyView.as_view(), name='token-verify'),
 ]
