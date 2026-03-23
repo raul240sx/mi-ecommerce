@@ -21,6 +21,10 @@ class Order(BaseModel):
     class Meta:
         verbose_name = 'Orden'
         verbose_name_plural = 'Ordenes'
+        indexes = [
+            models.Index(fields=['user_id']),
+            models.Index(fields=['status']),
+        ]
 
 
     history = HistoricalRecords(user_db_constraint=False)
