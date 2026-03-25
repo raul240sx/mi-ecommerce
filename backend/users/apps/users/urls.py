@@ -36,4 +36,8 @@ urlpatterns = [
     # JWT Tokens
     path('token/refresh/', CustomTokenRefreshView.as_view(), name='token-refresh'),
     path('token-verify/', TokenVerifyView.as_view(), name='token-verify'),
+
+    # App Locations, regiones y comunas
+    path('locations/', include('apps.locations.urls')),
+
 ]

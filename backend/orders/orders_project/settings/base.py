@@ -34,7 +34,8 @@ THIRD_APPS = [
     'simple_history',
     'drf_spectacular',
     'corsheaders',
-    'django_filters',]  ## Aún no lo usaremos
+    'django_filters',
+    ] 
 
 INSTALLED_APPS = BASE_APPS + LOCAL_APPS + THIRD_APPS
 
