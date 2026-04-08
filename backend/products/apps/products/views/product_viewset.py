@@ -1,5 +1,3 @@
-from django.utils.decorators import method_decorator
-
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework import viewsets
@@ -8,8 +6,8 @@ from rest_framework.permissions import AllowAny
 from drf_spectacular.utils import extend_schema, extend_schema_view
 
 from apps.products.permissions.is_staff_permission import IsStaffPermission
-
 from apps.products.serializers.product_serializer import ProductSerializer
+from apps.products.filters import ProductFilter
 
 
 
@@ -20,7 +18,7 @@ from apps.products.serializers.product_serializer import ProductSerializer
 class ProductViewSet(viewsets.ModelViewSet):
     serializer_class = ProductSerializer
 
-    filterset_fields = ['category'] 
+    filterset_class = ProductFilter
     search_fields = ['name', 'description']
     ordering_fields = ['price', 'created_at']
 
