@@ -31,8 +31,8 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_THROTTLE_RATES': {
         'anon': '100/day',
-        'password_reset': '10/min',     ## cambiar a 5/min
-        'register': '10/min',           ## cambiar a 2/min
+        'password_reset': '5/min',     ## cambiar a 5/min
+        'register': '2/min',           ## cambiar a 2/min
     },
 
     'DEFAULT_FILTER_BACKENDS': [
@@ -106,7 +106,7 @@ SIMPLE_JWT = {
     'ALGORITHM': 'RS256',
     'SIGNING_KEY': JWT_PRIVATE_KEY,   
     'VERIFYING_KEY': JWT_PUBLIC_KEY,  
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=1),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
     'AUTH_HEADER_TYPES': ('Bearer',),
 
