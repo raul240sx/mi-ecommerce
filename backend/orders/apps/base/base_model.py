@@ -46,3 +46,7 @@ class BaseModel(models.Model):
         abstract = True
         verbose_name = 'Modelo base'
         verbose_name_plural = 'Modelos base'
+        abstract = True
+        indexes = [
+            models.Index(fields=['created_date'])
+        ]

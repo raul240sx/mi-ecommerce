@@ -4,6 +4,7 @@ psycopg2-binary
 django-cors-headers
 djangorestframework-simplejwt
 pillow
+django-filter
 python-dotenv
 django-simple-history
 drf-spectacular

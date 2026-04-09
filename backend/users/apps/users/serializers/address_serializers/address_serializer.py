@@ -23,6 +23,30 @@ class AddressSerializer(serializers.ModelSerializer):
             'is_active'
         ]
         read_only_fields = ['is_active']
+        extra_kwargs = {
+            'street': {
+                'error_messages': {
+                    'blank': 'La calle es necesaria para realizar el envío.',
+                    'required': 'Este campo es obligatorio.',
+                },
+            },
+            'number': {
+                'error_messages': {
+                    'blank': 'El número del domicilio es necesario para hacer el envío.',
+                    'required': 'Este campo es obligatorio.',
+                },
+            },
+            'commune': {
+                'error_messages': {
+                    'null': 'La comuna es necesaria para hacer el envío.',
+                    'required': 'Este campo es obligatorio.',
+                    'incorrect_type': 'Selección de comuna no válida.',
+                    'does_not_exist': 'La comuna seleccionada no existe.',
+                },
+            },
+
+        }
+
 
     
 
@@ -45,7 +69,7 @@ class AddressSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
 
-        user = instance.user
+        user = self.context['request'].user
         new_is_main = validated_data.get('is_main', instance.is_main)
 
 
