@@ -16,6 +16,7 @@ class Order(BaseModel):
     user_id = models.IntegerField('Orden del usuario')
     status = models.CharField(max_length=20, choices=Status.choices, default=Status.PENDING)
     total_amount = models.DecimalField('Total orden', max_digits=8, decimal_places=0)
+    user_address = models.IntegerField('Dirección de envío', blank=True, null=True)
 
 
     class Meta:

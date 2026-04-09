@@ -13,6 +13,7 @@ from apps.users.views.token_views.token_verify_view import TokenVerifyView
 from apps.users.views.token_views.logout_view import LogoutTokenView
 from apps.users.views.token_views.token_refresh_view import CustomTokenRefreshView
 from apps.users.views.user_views.resend_email_verification_view import ResendEmailVerificationApiView
+from apps.users.views.address_views.verify_user_address import VerifyAddressView
 
 router = SimpleRouter()
 router.register(r'addresses', AddressViewset, basename='address')
@@ -39,7 +40,11 @@ urlpatterns = [
     path('token/refresh/', CustomTokenRefreshView.as_view(), name='token-refresh'),
     path('token-verify/', TokenVerifyView.as_view(), name='token-verify'),
 
+    # Verificación interna de existencia de direccion de usuario
+    path('verify-address/<int:address_id>/', VerifyAddressView.as_view(), name='verify-address'),
+
     # App Locations, regiones y comunas
     path('locations/', include('apps.locations.urls')),
+
 
 ]

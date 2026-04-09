@@ -40,6 +40,33 @@ THIRD_APPS = [
 INSTALLED_APPS = BASE_APPS + LOCAL_APPS + THIRD_APPS
 
 
+# --- REST FRAMEWORK CONFIG ---
+
+REST_FRAMEWORK = {
+    'DEFAULT_PARSER_CLASSES': [
+        'rest_framework.parsers.JSONParser',
+        'rest_framework.parsers.FormParser',
+        'rest_framework.parsers.MultiPartParser',
+    ],
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ],
+}
+
+# Deshabilitar CSRF para APIs REST
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:3000',
+    'http://localhost:5173',
+    'https://localhost:3000',
+    'https://localhost:5173',
+    'https://api.guitarzone.cl',
+    'https://guitarzone.cl',
+]
+
+
 USERS_VERIFY_URL = 'http://users-service:8000/usuario/verify_token/'
 
 
@@ -50,7 +77,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',  # Deshabilitado para APIs REST
     'django.contrib.auth.middleware.AuthenticationMiddleware',
 
     'apps.base.middleware.JWTVerificationMiddleware',
