@@ -709,7 +709,7 @@ Este proyecto está bajo la licencia MIT. Puedes usarlo, modificarlo y distribui
 **Raúl Ignacio Ramírez Sanhueza**
 
 - GitHub: [@raul240sx](https://github.com/raul240sx)
-- Email: raul.ramirezsanhueza@gmail.com
+- Email: raul.ramirez1401@gmail.com
 - Sitio web: [guitarzone.cl](https://guitarzone.cl)
 
 ---
